@@ -218,18 +218,18 @@
 
             <!-- TV View -->
             <div id="tv-view" class="hidden">
-                <div class="card rounded-2xl p-6 max-w-4xl mx-auto text-center">
+                <!-- Removed max-w-4xl to allow it to take more space -->
+                <div class="card rounded-2xl p-6 mx-auto text-center">
                     <h2 class="text-2xl font-semibold mb-4">Ramadhan World TV</h2>
                     <div class="video-container mb-4">
                         <div id="youtube-player"></div>
                     </div>
-                    <div class="flex justify-center gap-4">
-                        <button onclick="playVideo()" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded-full text-lg shadow-lg transition transform hover:scale-105">
-                            <i class="fas fa-play mr-2"></i>Play
-                        </button>
-                        <button onclick="pauseVideo()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full text-lg shadow-lg transition transform hover:scale-105">
+                    <div class="flex justify-center gap-4 flex-wrap">
+                        <!-- Play button removed as per request -->
+                        <button id="tv-pause-button" onclick="pauseVideo()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full text-lg shadow-lg transition transform hover:scale-105 hidden">
                             <i class="fas fa-pause mr-2"></i>Pause
                         </button>
+                        <!-- Fullscreen button removed as per request -->
                     </div>
                 </div>
             </div>
@@ -314,6 +314,10 @@
         const azanAudio = document.getElementById('azan-audio');
         const settingsSavedMessage = document.getElementById('settings-saved-message');
         const azanPlayFailedMessage = document.getElementById('azan-play-failed-message');
+
+        // TV player buttons
+        // Removed tvPlayButton as per request
+        const tvPauseButton = document.getElementById('tv-pause-button');
 
 
         let countdownInterval;
@@ -482,6 +486,11 @@
                 startCompass();
             } else {
                 stopCompass();
+            }
+
+            // If navigating to TV view, attempt to play video
+            if (viewName === 'tv' && youtubePlayer) {
+                playVideo(); // Attempt to play when TV view is shown
             }
         }
 
@@ -679,7 +688,7 @@
                 videoId: 'mU72MeSW5Zs', // Specific video ID
                 playerVars: {
                     'playsinline': 1,
-                    'autoplay': 0, // No autoplay on load
+                    'autoplay': 0, // No autoplay on load, we'll try to play on view change
                     'controls': 0, // Hide YouTube's controls
                     'rel': 0, // Do not show related videos
                     'showinfo': 0, // Hide video title and uploader info
@@ -695,19 +704,30 @@
         }
 
         function onPlayerReady(event) {
-            // Player is ready, but don't play automatically
             console.log('YouTube Player is ready.');
+            // No initial button state change here, as play button is removed.
+            // The pause button visibility is handled by onPlayerStateChange.
         }
 
         function onPlayerStateChange(event) {
-            // Handle player state changes if needed
-            // For example, if you want to update button states based on playing/paused
-            console.log('YouTube player state changed:', event.data);
+            // Update button visibility based on player state
+            if (event.data === YT.PlayerState.PLAYING) {
+                // tvPlayButton.classList.add('hidden'); // Play button is removed
+                tvPauseButton.classList.remove('hidden');
+            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+                // tvPlayButton.classList.remove('hidden'); // Play button is removed
+                tvPauseButton.classList.add('hidden');
+            }
         }
 
         function playVideo() {
             if (youtubePlayer && typeof youtubePlayer.playVideo === 'function') {
-                youtubePlayer.playVideo();
+                youtubePlayer.playVideo().catch(e => {
+                    console.error("YouTube video play failed:", e);
+                    showTemporaryMessage('Video playback blocked by browser. Please click the video directly or try again.', true);
+                });
+            } else {
+                console.warn("YouTube player not ready or playVideo function not available.");
             }
         }
 
@@ -716,6 +736,9 @@
                 youtubePlayer.pauseVideo();
             }
         }
+
+        // Fullscreen function removed as per request
+        // function toggleFullscreen() { ... }
 
 
         // --- Settings & Notifications ---
