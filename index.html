@@ -21,6 +21,7 @@
             background-color: rgba(6, 182, 212, 0.3);
             border-left-width: 4px;
             border-color: #06B6D4;
+            transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition for active state */
         }
         .nav-button.active {
             background-color: #06B6D4;
@@ -32,7 +33,7 @@
             transition: transform 0.5s ease-out;
             transform-origin: center center; /* Rotate around its center */
         }
-        .quran-surah:hover, .radio-station-item:hover {
+        .quran-surah:hover, .radio-station-item:hover, .juz-item:hover {
             background-color: rgba(255, 255, 255, 0.15);
         }
         .radio-station-item {
@@ -103,6 +104,184 @@
             width: 100%;
             height: 100%;
         }
+
+        /* Qibla Compass Specific Styles */
+        #compass {
+            position: relative;
+            width: 256px; /* 64 * 4 */
+            height: 256px; /* 64 * 4 */
+            background-color: #1f2937; /* gray-800 */
+            border-radius: 9999px; /* rounded-full */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #374151; /* gray-700 */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Cardinal direction markers */
+        #compass .direction-marker {
+            position: absolute;
+            font-weight: bold;
+            font-size: 1.25rem; /* text-xl */
+            z-index: 1; /* Ensure markers are above lines */
+        }
+        #compass .direction-marker.north { top: 8px; left: 50%; transform: translateX(-50%); color: #ef4444; /* red-500 */ }
+        #compass .direction-marker.south { bottom: 8px; left: 50%; transform: translateX(-50%); }
+        #compass .direction-marker.west { left: 8px; top: 50%; transform: translateY(-50%); }
+        #compass .direction-marker.east { right: 8px; top: 50%; transform: translateY(-50%); }
+
+        /* Directional lines */
+        #compass .direction-line {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.2);
+            z-index: 0;
+        }
+        #compass .direction-line.vertical {
+            width: 2px;
+            height: 100%;
+        }
+        #compass .direction-line.horizontal {
+            height: 2px;
+            width: 100%;
+        }
+
+        /* Kaaba SVG styling */
+        #qibla-marker svg {
+            width: 60px; /* Adjust size as needed */
+            height: 60px; /* Adjust size as needed */
+            fill: #10B981; /* Green color for the Kaaba graphic */
+            filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.7)); /* Subtle glow */
+        }
+
+        /* Quran reading section styles */
+        .quran-text-container {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            text-align: right; /* Right-to-left for Arabic */
+        }
+        .quran-ayah-group {
+            margin-bottom: 0.25rem; /* Reduced spacing further */
+            padding-bottom: 0.25rem; /* Reduced padding */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            direction: rtl; /* Overall RTL for the group */
+            line-height: 1.6; /* Adjusted for tighter Arabic lines */
+            display: flex; /* Use flexbox for inline Ayah number */
+            flex-wrap: wrap; /* Allow content to wrap */
+            align-items: baseline; /* Align text and number at baseline */
+            justify-content: flex-end; /* Align to the right */
+        }
+        .quran-ayah-group:last-child {
+            border-bottom: none;
+        }
+        .arabic-text {
+            font-size: 1.6rem;
+            display: inline; /* Keep Arabic text inline */
+            white-space: pre-wrap; /* Preserve spaces and allow wrapping */
+        }
+        .ayah-number-inline {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            display: inline-block; /* Keep it as inline-block for positioning */
+            direction: ltr; /* Ensure number is LTR within the RTL flow */
+            margin-left: 0.25rem; /* Small margin to separate from Arabic text */
+            vertical-align: middle; /* Align vertically with text */
+            font-family: 'Times New Roman', serif; /* Often used for traditional ayah numbers */
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+        .translation-text {
+            display: block;
+            font-size: 0.9rem;
+            color: #a1a1aa;
+            margin-top: 0.25rem; /* Reduced margin */
+            direction: ltr;
+            text-align: left;
+            width: 100%; /* Ensure translation takes full width below Arabic */
+        }
+        .juz-item {
+            cursor: pointer;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.08);
+            transition: background-color 0.2s ease-in-out;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .juz-filter-dropdown {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            background-color: #374151; /* gray-700 */
+            color: white;
+            border: none;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        /* High-quality audio player styling */
+        #quran-audio-player {
+            width: 100%;
+            background-color: #1f2937; /* Darker background */
+            border-radius: 0.75rem; /* Rounded corners */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+            padding: 0.5rem; /* Some internal padding */
+            outline: none; /* Remove default focus outline */
+        }
+
+        /* Style for the controls within the audio player */
+        #quran-audio-player::-webkit-media-controls-panel {
+            background-color: #1f2937; /* Match player background */
+            border-radius: 0.5rem;
+        }
+
+        #quran-audio-player::-webkit-media-controls-play-button,
+        #quran-audio-player::-webkit-media-controls-current-time-display,
+        #quran-audio-player::-webkit-media-controls-time-remaining-display,
+        #quran-audio-player::-webkit-media-controls-timeline,
+        #quran-audio-player::-webkit-media-controls-volume-slider,
+        #quran-audio-player::-webkit-media-controls-mute-button,
+        #quran-audio-player::-webkit-media-controls-toggle-closed-captions-button,
+        #quran-audio-player::-webkit-media-controls-fullscreen-button {
+            color: #06B6D4; /* Cyan color for icons/text */
+        }
+
+        #quran-audio-player::-webkit-media-controls-timeline {
+            background-color: rgba(6, 182, 212, 0.3); /* Lighter cyan for timeline background */
+            border-radius: 9999px; /* Pill shape */
+        }
+
+        #quran-audio-player::-webkit-media-controls-play-button {
+            background-color: #06B6D4;
+            border-radius: 9999px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #quran-audio-player::-webkit-media-controls-play-button:hover {
+            background-color: #0891B2;
+        }
+
+        /* Firefox specific styles */
+        #quran-audio-player {
+            -moz-appearance: none;
+            appearance: none;
+        }
+        #quran-audio-player::-moz-range-track {
+            background-color: rgba(6, 182, 212, 0.3);
+            border-radius: 9999px;
+        }
+        #quran-audio-player::-moz-range-thumb {
+            background-color: #06B6D4;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white">
@@ -115,7 +294,8 @@
     <div id="main-content" class="min-h-screen container mx-auto p-4 sm:p-6 lg:p-8 opacity-0 transition-opacity duration-1000">
         <!-- Header Section -->
         <header class="text-center mb-6">
-            <!-- Logo line removed as the provided file path was temporary and not persistent -->
+            <!-- Logo added here -->
+            <img id="app-logo" src="https://i.ibb.co/Zp0bgjsS/ART-WORKS-1.png" alt="Ramadhan World Logo" class="w-[200px] h-[200px] mx-auto mb-4 rounded-full shadow-lg object-contain">
             <h1 class="text-4xl sm:text-5xl font-extrabold text-cyan-400">Ramadhan World</h1>
             <p id="islamic-date" class="text-lg text-gray-300 mt-2">Loading Islamic Date...</p>
             <p id="location" class="text-md text-gray-400 mt-1">Fetching location...</p>
@@ -125,9 +305,10 @@
         <nav class="flex justify-center gap-2 mb-6 flex-wrap">
             <button onclick="showView('home')" class="nav-button active px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Home</button>
             <button onclick="showView('qibla')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Qibla</button>
-            <button onclick="showView('quran')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Quran</button>
+            <button onclick="showView('listenQuran')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Quran</button> 
+            <!-- Removed Read Quran button -->
             <button onclick="showView('salah')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Salah</button>
-            <button onclick="showView('tv')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">TV</button>
+            <button onclick="showView('naat')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Naat</button> <!-- Changed from TV -->
             <button onclick="showView('settings')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Settings</button>
         </nav>
 
@@ -145,8 +326,7 @@
                 <!-- Radio Player on Home View -->
                 <section id="home-radio-section" class="mb-8">
                     <div class="card rounded-2xl p-6 max-w-2xl mx-auto text-center">
-                        <h2 class="text-2xl font-semibold mb-4">Ramadhan World Radio</h2>
-                        <button onclick="playRamadhanWorldRadio()" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg transition transform hover:scale-105">
+                        <button onclick="playRamadhanWorldRadio()" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg transition transform hover:scale-105">
                             Play Ramadhan World Radio
                         </button>
                         <div id="home-radio-player" class="mt-6 text-center">
@@ -165,18 +345,22 @@
             <div id="qibla-view" class="hidden text-center">
                 <div class="card rounded-2xl p-6 max-w-sm mx-auto">
                     <h2 class="text-2xl font-semibold mb-4">Qibla Compass</h2>
-                    <div id="compass" class="relative w-64 h-64 mx-auto bg-gray-800 rounded-full flex items-center justify-center border-4 border-gray-700 shadow-xl">
-                        <!-- Compass markings (fixed) -->
-                        <div class="absolute text-xl font-bold top-2 left-1/2 -translate-x-1/2 text-red-500">N</div>
-                        <div class="absolute text-xl font-bold bottom-2 left-1/2 -translate-x-1/2">S</div>
-                        <div class="absolute text-xl font-bold left-2 top-1/2 -translate-y-1/2">W</div>
-                        <div class="absolute text-xl font-bold right-2 top-1/2 -translate-y-1/2">E</div>
+                    <div id="compass">
+                        <!-- Directional lines -->
+                        <div class="direction-line vertical"></div>
+                        <div class="direction-line horizontal"></div>
+
+                        <!-- Cardinal direction markers -->
+                        <div class="direction-marker north">N</div>
+                        <div class="direction-marker south">S</div>
+                        <div class="direction-marker west">W</div>
+                        <div class="direction-marker east">E</div>
                         
                         <!-- Qibla Marker (the main rotating indicator) -->
                         <div id="qibla-marker" class="absolute w-full h-full flex items-center justify-center">
-                            <!-- Green triangle pointing upwards to signify Qibla -->
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="transform -translate-y-1/2">
-                                <path d="M12 2L2 22H22L12 2Z" fill="#10B981"/> 
+                            <!-- Kaaba SVG Icon -->
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="transform -translate-y-1/2">
+                                <path d="M12 2L2 7V17L12 22L22 17V7L12 2ZM12 4.31L19.5 8.06V15.94L12 19.69L4.5 15.94V8.06L12 4.31ZM12 10.5L19 14.5V9.5L12 5.5L5 9.5V14.5L12 10.5Z" fill="#10B981"/>
                             </svg>
                         </div>
                     </div>
@@ -185,10 +369,11 @@
                 </div>
             </div>
 
-            <!-- Quran View -->
-            <div id="quran-view" class="hidden">
+            <!-- Listen Quran View (now just "Quran" view for audio) -->
+            <div id="listen-quran-view" class="hidden">
                  <div class="card rounded-2xl p-6 max-w-4xl mx-auto">
-                    <h2 class="text-2xl font-semibold mb-4 text-center">The Holy Quran</h2>
+                    <h2 class="text-2xl font-semibold mb-4 text-center">Holy Quran Recitation</h2>
+                    
                     <div id="quran-surah-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto pr-2">
                         <!-- Surahs will be populated here -->
                     </div>
@@ -198,6 +383,8 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Removed Read Quran View (formerly Recite Quran) -->
 
             <!-- Salah View (formerly Radio View) -->
             <div id="salah-view" class="hidden">
@@ -216,20 +403,17 @@
                 </div>
             </div>
 
-            <!-- TV View -->
-            <div id="tv-view" class="hidden">
-                <!-- Removed max-w-4xl to allow it to take more space -->
+            <!-- Naat View (formerly TV View) -->
+            <div id="naat-view" class="hidden">
                 <div class="card rounded-2xl p-6 mx-auto text-center">
-                    <h2 class="text-2xl font-semibold mb-4">Ramadhan World TV</h2>
+                    <h2 class="text-2xl font-semibold mb-4">Naat Collection</h2> <!-- Changed from Ramadhan World TV -->
                     <div class="video-container mb-4">
                         <div id="youtube-player"></div>
                     </div>
                     <div class="flex justify-center gap-4 flex-wrap">
-                        <!-- Play button removed as per request -->
                         <button id="tv-pause-button" onclick="pauseVideo()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full text-lg shadow-lg transition transform hover:scale-105 hidden">
                             <i class="fas fa-pause mr-2"></i>Pause
                         </button>
-                        <!-- Fullscreen button removed as per request -->
                     </div>
                 </div>
             </div>
@@ -252,6 +436,9 @@
                             <label for="azan-silent">Do not notify (show time only)</label>
                         </div>
                     </div>
+
+                    <!-- Removed Quran Translation Language section -->
+
                     <button onclick="saveSettings()" class="mt-6 w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded-lg transition">Save Settings</button>
                 </div>
             </div>
@@ -259,12 +446,13 @@
 
         <!-- Footer -->
         <footer class="text-center mt-12 text-gray-500 text-sm">
-            <p>Prayer times by AlAdhan.com API | Quran by Quran.com API</p>
-            <p>App developed with love</p>
+            <p>Contact us: radioramadhanworld@gmail.com</p>
+            <p>Powered by RAMADHAN WORLD PRODUCTION</p>
         </footer>
     </div>
     
-    <audio id="azan-audio" src="https://islamic-sound.com/wp-content/uploads/2022/10/azan-2.mp3" preload="auto"></audio>
+    <audio id="azan-fajr-audio" src="fajr.mp3" preload="auto"></audio>
+    <audio id="azan-other-audio" src="other salah.mp3" preload="auto"></audio>
     <div id="settings-saved-message" class="settings-saved-message hidden">Settings Saved!</div>
     <div id="azan-play-failed-message" class="settings-saved-message hidden bg-red-500">Azan audio blocked by browser. Please interact with the page.</div>
 
@@ -293,13 +481,15 @@
         const views = { 
             home: document.getElementById('home-view'), 
             qibla: document.getElementById('qibla-view'), 
-            quran: document.getElementById('quran-view'), 
-            salah: document.getElementById('salah-view'), // Renamed from radio
-            tv: document.getElementById('tv-view'), // New TV view
+            listenQuran: document.getElementById('listen-quran-view'), 
+            salah: document.getElementById('salah-view'), 
+            naat: document.getElementById('naat-view'), // Changed from tv
             settings: document.getElementById('settings-view') 
         };
         const qiblaDirectionEl = document.getElementById('qibla-direction');
         const qiblaMarker = document.getElementById('qibla-marker');
+        
+        // Listen Quran specific elements
         const quranSurahList = document.getElementById('quran-surah-list');
         const quranPlayer = document.getElementById('quran-player');
         const quranAudioPlayer = document.getElementById('quran-audio-player');
@@ -311,21 +501,29 @@
         const homeRadioLoadingIndicator = document.getElementById('home-radio-loading-indicator');
         const homeRadioAudioPlayer = document.getElementById('home-radio-audio-player');
 
-        const azanAudio = document.getElementById('azan-audio');
+        // Separate audio elements for different azans
+        const azanFajrAudio = document.getElementById('azan-fajr-audio');
+        const azanOtherAudio = document.getElementById('azan-other-audio');
+
         const settingsSavedMessage = document.getElementById('settings-saved-message');
         const azanPlayFailedMessage = document.getElementById('azan-play-failed-message');
 
-        // TV player buttons
-        // Removed tvPlayButton as per request
-        const tvPauseButton = document.getElementById('tv-pause-button');
-
+        // Naat player buttons (formerly TV)
+        const tvPauseButton = document.getElementById('tv-pause-button'); // Renamed to tv-pause-button for consistency with previous code
 
         let countdownInterval;
         let userCoords = { latitude: 24.8607, longitude: 67.0011 }; // Default: Karachi
         let qiblaAngle = 0; // This will be updated from the API
-        let settings = { azanNotification: 'full' };
-        let currentPlayingQuranElement = null; // To track the currently playing surah element
+        let settings = { azanNotification: 'full' }; // Removed quranTranslationLanguage from settings
+        let currentPlayingQuranElement = null; // To track the currently playing surah element (for audio)
         let youtubePlayer; // YouTube player object
+        let quranChapters = []; // Global variable to store surah data
+        let currentSurahIndex = -1; // To keep track of the currently playing surah's index for audio playback
+
+        // Local storage keys
+        const LAST_LISTENED_KEY = 'ramadanAppLastListened';
+        // Removed QURAN_TRANSLATION_KEY as it's no longer needed
+
 
         // Only the working radio station
         const radioStations = [
@@ -337,7 +535,8 @@
         async function initializeApp() {
             loadSettings();
             await getUserLocation();
-            populateQuranList();
+            await populateQuranList(); // Ensure chapters are loaded before attempting to load last listened
+            loadLastListenedAudio();
             // Set initial text for the home radio player
             homeCurrentStationName.textContent = "Ready to play Ramadhan World Radio";
         }
@@ -358,7 +557,7 @@
                     // Update Qibla angle and display it
                     if (data.data.meta && typeof data.data.meta.qibla !== 'undefined') {
                         qiblaAngle = data.data.meta.qibla;
-                        qiblaDirectionEl.textContent = `Qibla is at ${qiblaAngle.toFixed(2)}° from North. Rotate your device until the green marker points towards Makkah.`;
+                        qiblaDirectionEl.textContent = `Qibla is at ${qiblaAngle.toFixed(2)}° from North. Rotate your device until the Kaaba icon points towards Makkah.`;
                         // Initial Qibla marker rotation
                         // The marker will be rotated by the device orientation in handleOrientation
                     } else {
@@ -412,7 +611,10 @@
             
             // Update prayer times in the Salah view
             for (const prayer in salahPrayerTimeElements) {
-                if (timings[prayer]) salahPrayerTimeElements[prayer].textContent = formatTime(timings[prayer]);
+                // Ensure the element exists before trying to set textContent
+                if (salahPrayerTimeElements[prayer] && timings[prayer]) {
+                    salahPrayerTimeElements[prayer].textContent = formatTime(timings[prayer]);
+                }
             }
         }
 
@@ -422,11 +624,20 @@
                 const now = new Date();
                 const nextPrayer = findNextPrayer(now, timings);
 
+                // Remove active class from all prayer times first
+                document.querySelectorAll('.prayer-time').forEach(el => el.classList.remove('active'));
+
                 if (nextPrayer) {
                     nextPrayerNameEl.textContent = nextPrayer.name;
                     const prayerTime = new Date(now.toDateString() + ' ' + nextPrayer.time);
                     const diff = prayerTime.getTime() - now.getTime();
                     
+                    // Add active class to the current next prayer
+                    const nextPrayerElement = document.getElementById(`salah-${nextPrayer.name.toLowerCase()}`);
+                    if (nextPrayerElement) {
+                        nextPrayerElement.classList.add('active');
+                    }
+
                     if (diff > 0) {
                         const hours = Math.floor(diff / (1000 * 60 * 60));
                         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -477,10 +688,21 @@
                 youtubePlayer.pauseVideo();
             }
 
-            Object.values(views).forEach(view => view.classList.add('hidden'));
-            views[viewName].classList.remove('hidden');
+            Object.values(views).forEach(view => {
+                if (view) { // Ensure view element exists before accessing classList
+                    view.classList.add('hidden');
+                }
+            });
+
+            if (views[viewName]) { // Ensure target view element exists
+                views[viewName].classList.remove('hidden');
+            }
+            
             document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.nav-button[onclick="showView('${viewName}')"]`).classList.add('active');
+            const activeButton = document.querySelector(`.nav-button[onclick="showView('${viewName}')"]`);
+            if (activeButton) { // Ensure button element exists
+                activeButton.classList.add('active');
+            }
             
             if (viewName === 'qibla') {
                 startCompass();
@@ -488,9 +710,9 @@
                 stopCompass();
             }
 
-            // If navigating to TV view, attempt to play video
-            if (viewName === 'tv' && youtubePlayer) {
-                playVideo(); // Attempt to play when TV view is shown
+            // If navigating to Naat view, attempt to play video
+            if (viewName === 'naat' && youtubePlayer) { // Changed from tv
+                playVideo(); // Attempt to play when Naat view is shown
             }
         }
 
@@ -510,7 +732,7 @@
                     .then(permissionState => {
                         if (permissionState === 'granted') {
                             window.addEventListener('deviceorientation', handleOrientation);
-                            qiblaDirectionEl.textContent = `Qibla is at ${qiblaAngle.toFixed(2)}° from North. Rotate your device until the green marker points towards Makkah.`;
+                            qiblaDirectionEl.textContent = `Qibla is at ${qiblaAngle.toFixed(2)}° from North. Rotate your device until the Kaaba icon points towards Makkah.`;
                         } else {
                              qiblaDirectionEl.textContent = "Permission for device orientation not granted. Cannot show Qibla direction.";
                         }
@@ -518,7 +740,8 @@
                     .catch(console.error);
             } else if ('ondeviceorientation' in window) {
                 window.addEventListener('deviceorientation', handleOrientation);
-                qiblaDirectionEl.textContent = `Qibla is at ${qiblaAngle.toFixed(2)}° from North. Rotate your device until the green marker points towards Makkah.`;
+                // Removed reference to alpha here as it's not defined in this scope initially
+                qiblaDirectionEl.textContent = `Qibla is at ${qiblaAngle.toFixed(2)}° from North. Rotate your device until the Kaaba icon points towards Makkah.`;
             } else {
                 qiblaDirectionEl.textContent = "Device orientation not supported on this browser. Cannot show Qibla direction.";
             }
@@ -547,77 +770,98 @@
             // To make the marker point to Qibla, it needs to rotate by (Qibla Angle - Device Heading).
             qiblaMarker.style.transform = `rotate(${qiblaAngle - alpha}deg)`;
 
-            qiblaDirectionEl.textContent = `Qibla: ${qiblaAngle.toFixed(2)}° from North. Your device is pointing ${alpha.toFixed(2)}° from North. Rotate until the green marker points towards Makkah.`;
+            qiblaDirectionEl.textContent = `Qibla: ${qiblaAngle.toFixed(2)}° from North. Your device is pointing ${alpha.toFixed(2)}° from North. Rotate until the Kaaba icon points towards Makkah.`;
         }
 
 
-        // --- Quran Section ---
+        // --- Quran Section (Audio) ---
         
         async function populateQuranList() {
             try {
                 const response = await fetch('https://api.quran.com/api/v4/chapters');
-                const { chapters } = await response.json();
-                quranSurahList.innerHTML = chapters.map(surah => `
-                    <div class="quran-surah cursor-pointer p-3 rounded-lg flex justify-between items-center bg-gray-800 hover:bg-gray-700 transition"
-                         onclick="playSurah(${surah.id}, '${surah.name_simple}', this)">
-                        <div>
-                            <p class="font-semibold">${surah.id}. ${surah.name_simple}</p>
-                            <p class="text-sm text-gray-400">${surah.translated_name.name}</p>
-                        </div>
-                        <div>
-                            <i class="fas fa-play text-cyan-400 play-icon"></i>
-                            <i class="fas fa-pause text-cyan-400 pause-icon hidden"></i>
-                        </div>
-                    </div>
-                `).join('');
+                const data = await response.json();
+                quranChapters = data.chapters; // Store chapters globally
+
+                displaySurahsInList(quranChapters); // Always display all surahs
             } catch (error) {
-                quranSurahList.innerHTML = `<p class="text-center col-span-full text-red-400">Failed to load Surahs. Please check your internet connection.</p>`;
+                quranSurahList.innerHTML = `<p class="text-center col-span-full text-red-400">Failed to load Surahs for audio. Please check your internet connection.</p>`;
                 console.error("Error fetching Surahs:", error);
             }
         }
 
-        async function playSurah(surahId, surahName, element) {
+        function displaySurahsInList(surahsToDisplay) {
+            quranSurahList.innerHTML = surahsToDisplay.map((surah, index) => `
+                <div class="quran-surah cursor-pointer p-3 rounded-lg flex justify-between items-center bg-gray-800 hover:bg-gray-700 transition"
+                     onclick="playSurah(${surah.id}, '${surah.name_simple}', this, ${index})"> <!-- Use actual index here -->
+                    <div>
+                        <p class="font-semibold">${surah.id}. ${surah.name_simple}</p>
+                        <p class="text-sm text-gray-400">${surah.translated_name.name}</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-play text-cyan-400 play-icon"></i>
+                        <i class="fas fa-pause text-cyan-400 pause-icon hidden"></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function playSurah(surahId, surahName, element, index, startTime = 0) {
             try {
+                // Reverted to quran.com API for chapter recitations
                 const response = await fetch(`https://api.quran.com/api/v4/chapter_recitations/7/${surahId}`);
                 const { audio_file } = await response.json();
 
-                if (!audio_file) {
-                    console.error(`No audio file found for Surah ID: ${surahId}`);
+                if (!audio_file || !audio_file.audio_url) {
+                    console.error(`No audio file found for Surah ID: ${surahId} from quran.com`);
                     showTemporaryMessage('Could not find audio for this Surah.'); 
                     return;
                 }
 
                 const audioUrl = audio_file.audio_url;
 
-                if (quranAudioPlayer.src === audioUrl && !quranAudioPlayer.paused) {
+                // If the same surah is already playing, pause it
+                if (quranAudioPlayer.src === audioUrl && !quranAudioPlayer.paused && startTime === 0) {
                     quranAudioPlayer.pause();
-                    element.querySelector('.play-icon').classList.remove('hidden');
-                    element.querySelector('.pause-icon').classList.add('hidden');
+                    if (currentPlayingQuranElement) { 
+                        currentPlayingQuranElement.querySelector('.play-icon').classList.remove('hidden');
+                        currentPlayingQuranElement.querySelector('.pause-icon').classList.add('hidden');
+                    }
                     currentPlayingQuranElement = null;
+                    currentSurahIndex = -1; 
                     currentSurahName.textContent = `Paused: ${surahName}`;
+                    saveLastListenedAudio(surahId, quranAudioPlayer.currentTime); 
                 } else {
+                    // If a different surah is playing or nothing is playing, play the new surah
                     if (currentPlayingQuranElement && currentPlayingQuranElement !== element) {
+                        // Reset the icon of the previously playing surah
                         currentPlayingQuranElement.querySelector('.play-icon').classList.remove('hidden');
                         currentPlayingQuranElement.querySelector('.pause-icon').classList.add('hidden');
                     }
 
                     quranAudioPlayer.src = audioUrl;
                     quranAudioPlayer.load(); 
+                    quranAudioPlayer.currentTime = startTime; 
                     currentSurahName.textContent = `Loading: ${surahName}...`;
                     quranPlayer.classList.remove('hidden');
 
                     quranAudioPlayer.play().then(() => {
                         currentSurahName.textContent = surahName;
-                        element.querySelector('.play-icon').classList.add('hidden');
-                        element.querySelector('.pause-icon').classList.remove('hidden');
+                        if (element) { 
+                            element.querySelector('.play-icon').classList.add('hidden');
+                            element.querySelector('.pause-icon').classList.remove('hidden');
+                        }
                         currentPlayingQuranElement = element;
+                        currentSurahIndex = index; 
                     }).catch(e => {
                         console.error("Quran audio play failed:", e);
                         showTemporaryMessage('Failed to play Surah. Please try again.');
                         currentSurahName.textContent = `Error playing: ${surahName}`;
-                        element.querySelector('.play-icon').classList.remove('hidden');
-                        element.querySelector('.pause-icon').classList.add('hidden');
+                        if (element) { 
+                            element.querySelector('.play-icon').classList.remove('hidden');
+                            element.querySelector('.pause-icon').classList.add('hidden');
+                        }
                         currentPlayingQuranElement = null;
+                        currentSurahIndex = -1;
                     });
                 }
             } catch (error) {
@@ -630,10 +874,97 @@
             if (currentPlayingQuranElement) {
                 currentPlayingQuranElement.querySelector('.play-icon').classList.remove('hidden');
                 currentPlayingQuranElement.querySelector('.pause-icon').classList.add('hidden');
+            }
+            if (currentSurahIndex !== -1 && quranChapters[currentSurahIndex]) {
+                saveLastListenedAudio(quranChapters[currentSurahIndex].id, 0); 
+            }
+
+            // Attempt to play the next surah automatically
+            if (quranChapters.length > 0 && currentSurahIndex !== -1) {
+                let nextIndex = currentSurahIndex + 1;
+                if (nextIndex >= quranChapters.length) {
+                    nextIndex = 0; // Loop back to the first surah
+                }
+                
+                const nextSurah = quranChapters[nextIndex];
+                // Find the corresponding DOM element for the next surah
+                // This assumes the order in quranSurahList.children matches quranChapters
+                // Use querySelector to find the element based on its surah ID in the onclick attribute
+                const nextSurahElement = document.querySelector(`#quran-surah-list div[onclick*="playSurah(${nextSurah.id}"]`);
+                
+                if (nextSurah && nextSurahElement) {
+                    playSurah(nextSurah.id, nextSurah.name_simple, nextSurahElement, nextIndex);
+                } else {
+                    console.warn("Could not find next surah or its element for autoplay.");
+                    currentPlayingQuranElement = null;
+                    currentSurahIndex = -1;
+                    currentSurahName.textContent = "Playback ended.";
+                }
+            } else {
                 currentPlayingQuranElement = null;
-                currentSurahName.textContent = "Select a surah";
+                currentSurahIndex = -1;
+                currentSurahName.textContent = "Playback ended.";
             }
         };
+
+        // Save last listened position when audio is paused
+        quranAudioPlayer.onpause = function() {
+            if (currentSurahIndex !== -1 && quranChapters[currentSurahIndex]) {
+                saveLastListenedAudio(quranChapters[currentSurahIndex].id, quranAudioPlayer.currentTime);
+            }
+        };
+
+
+        // Removed all functions related to Read Quran view, as the view itself is removed.
+
+
+        function saveLastListenedAudio(surahId, currentTime) {
+            const lastListened = { surahId: surahId, currentTime: currentTime };
+            localStorage.setItem(LAST_LISTENED_KEY, JSON.stringify(lastListened));
+        }
+
+        function loadLastListenedAudio() {
+            const saved = localStorage.getItem(LAST_LISTENED_KEY);
+            if (saved) {
+                const { surahId, currentTime } = JSON.parse(saved);
+                // Ensure quranChapters is populated before trying to find surah
+                if (quranChapters.length === 0) {
+                    populateQuranList().then(() => {
+                        const surah = quranChapters.find(s => s.id === surahId);
+                        if (surah) {
+                            // Logic for resuming audio on load can be placed here if needed
+                            // For now, it just ensures the data is loaded for potential future use.
+                        }
+                    }).catch(e => {
+                        console.error("Error populating quran list for last listened audio on load:", e);
+                    });
+                } else {
+                    const surah = quranChapters.find(s => s.id === surahId);
+                    if (surah) {
+                        // Logic for resuming audio on load can be placed here if needed
+                    }
+                }
+            }
+        }
+
+        function resumeListening() {
+            const saved = localStorage.getItem(LAST_LISTENED_KEY);
+            if (saved) {
+                const { surahId, currentTime } = JSON.parse(saved);
+                const surah = quranChapters.find(s => s.id === surahId);
+                const index = quranChapters.findIndex(s => s.id === surahId);
+                if (surah && index !== -1) {
+                    const surahElement = document.querySelector(`#quran-surah-list div[onclick*="playSurah(${surah.id}"]`);
+                    
+                    showView('listenQuran'); 
+                    playSurah(surah.id, surah.name_simple, surahElement, index, currentTime);
+                } else {
+                    showTemporaryMessage('Could not resume listening. Surah not found.', true);
+                }
+            } else {
+                showTemporaryMessage('No last listening position to resume.', true);
+            }
+        }
 
 
         // --- Radio Section (now integrated into Home for direct play) ---
@@ -654,13 +985,12 @@
 
             homeRadioAudioPlayer.src = station.url;
             homeRadioAudioPlayer.load(); 
-
             homeRadioAudioPlayer.onerror = null; 
 
             homeRadioAudioPlayer.play().then(() => {
                 homeRadioLoadingIndicator.classList.add('hidden'); 
                 homeRadioAudioPlayer.classList.remove('hidden'); 
-                homeCurrentStationName.textContent = `${station.name} (Playing)`; 
+                homeCurrentStationName.textContent = `${station.name}`; 
             }).catch(e => {
                 console.error("Radio audio play failed (playback error):", e);
                 homeRadioLoadingIndicator.classList.add('hidden'); 
@@ -680,7 +1010,7 @@
             // This function is now empty as radio stations are directly handled by playRamadhanWorldRadio
         }
 
-        // --- YouTube TV Section ---
+        // --- YouTube Naat Section (formerly TV Section) ---
         function onYouTubeIframeAPIReady() {
             youtubePlayer = new YT.Player('youtube-player', {
                 height: '360',
@@ -705,27 +1035,20 @@
 
         function onPlayerReady(event) {
             console.log('YouTube Player is ready.');
-            // No initial button state change here, as play button is removed.
-            // The pause button visibility is handled by onPlayerStateChange.
         }
 
         function onPlayerStateChange(event) {
             // Update button visibility based on player state
             if (event.data === YT.PlayerState.PLAYING) {
-                // tvPlayButton.classList.add('hidden'); // Play button is removed
                 tvPauseButton.classList.remove('hidden');
             } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
-                // tvPlayButton.classList.remove('hidden'); // Play button is removed
                 tvPauseButton.classList.add('hidden');
             }
         }
 
         function playVideo() {
             if (youtubePlayer && typeof youtubePlayer.playVideo === 'function') {
-                youtubePlayer.playVideo().catch(e => {
-                    console.error("YouTube video play failed:", e);
-                    showTemporaryMessage('Video playback blocked by browser. Please click the video directly or try again.', true);
-                });
+                youtubePlayer.playVideo(); 
             } else {
                 console.warn("YouTube player not ready or playVideo function not available.");
             }
@@ -737,14 +1060,12 @@
             }
         }
 
-        // Fullscreen function removed as per request
-        // function toggleFullscreen() { ... }
-
 
         // --- Settings & Notifications ---
         
         function saveSettings() {
             settings.azanNotification = document.querySelector('input[name="azan-notification"]:checked').value;
+            // Removed Quran Translation Language setting save
             localStorage.setItem('ramadanAppSettings', JSON.stringify(settings));
             showTemporaryMessage('Settings Saved!');
         }
@@ -753,20 +1074,33 @@
             const savedSettings = localStorage.getItem('ramadanAppSettings');
             if (savedSettings) {
                 settings = JSON.parse(savedSettings);
-                const radioInput = document.querySelector(`input[name="azan-notification"][value="${settings.azanNotification}"]`);
-                if (radioInput) {
-                    radioInput.checked = true;
+                const azanRadioInput = document.querySelector(`input[name="azan-notification"][value="${settings.azanNotification}"]`);
+                if (azanRadioInput) {
+                    azanRadioInput.checked = true;
                 }
+                // Removed Quran Translation Language setting load
             }
         }
 
         function handleAzan(prayerName) {
             if (settings.azanNotification === 'silent') return;
 
-            if (settings.azanNotification === 'full') {
-                azanAudio.play().catch(e => {
-                    console.error("Azan audio play failed:", e);
-                    showTemporaryMessage('Azan audio blocked by browser. Please interact with the page.', true);
+            let audioToPlay;
+            if (prayerName === 'Fajr') {
+                audioToPlay = azanFajrAudio;
+            } else if (['Dhuhr', 'Asr', 'Maghrib', 'Isha'].includes(prayerName)) {
+                audioToPlay = azanOtherAudio;
+            } else {
+                // Do not play audio for Sunrise or any unhandled prayer names
+                audioToPlay = null; 
+            }
+
+            if (settings.azanNotification === 'full' && audioToPlay) {
+                // Attempt to play Azan. Browsers may block autoplay without prior user interaction.
+                audioToPlay.play().catch(e => {
+                    console.error(`Azan audio play failed for ${prayerName}:`, e);
+                    // Inform the user if autoplay was blocked
+                    showTemporaryMessage('Azan audio blocked by browser. Please interact with the page to enable audio.', true);
                 });
             }
 
@@ -814,6 +1148,18 @@
 
         // --- Initial Load ---
         window.addEventListener('load', initializeApp);
+
+        // Add event listener for pagehide to pause all media when the user navigates away or closes the tab
+        window.addEventListener('pagehide', () => {
+            quranAudioPlayer.pause();
+            homeRadioAudioPlayer.pause();
+            if (youtubePlayer && typeof youtubePlayer.pauseVideo === 'function') {
+                youtubePlayer.pauseVideo();
+            }
+            // Also pause azan audio if it's playing
+            azanFajrAudio.pause();
+            azanOtherAudio.pause();
+        });
 
     </script>
 </body>
