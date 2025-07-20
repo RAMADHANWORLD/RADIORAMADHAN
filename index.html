@@ -11,7 +11,7 @@
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
     <meta name="author" content="RamadhanWorld Team">
-    <meta name="viewport" content="width=device-width, initial="initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Open Graph Tags for Social Sharing -->
     <meta property="og:title" content="Radio Ramadhan | Live Islamic Radio for Ramadan">
@@ -41,15 +41,18 @@
     }
     </script>
 
-    <!-- PWA Manifest Link - Embedded as Data URI for self-contained HTML -->
-    <!-- In a real-world scenario, this would be a separate file (e.g., manifest.json) -->
-    <!-- For Gemini preview, embedding as data URI is often necessary. -->
-    <link rel="manifest" href="data:application/json;base64,eyJpY29ucyI6IFt7InNpemVzIjogIjgweDgwIiwgInR5cGUiOiAiaW1hZ2UvcG5nIiwgInNyYyI6ICJodHRwczovL2iuaWJiLmNvL3Y0NlA1RzFxL0FSVC1XT1JLUy04MC14LTgwLXB4LnBuZyJ9LCB7InNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAic3JjIjogImh0dHBzOi8vaS5pYmIuY28vdmQ5NnQ2NS9BUlQtV09SS1MtMTkyLXgxOTItcHhuZy5wbmciLCAicHVycG9zZXMiOiAiYW55In0sIHsic2l6ZXMiOiAiNTEyeDUxMiIsICJ0eXBlIjogImltYWdlL3BuZyIsICJzcmMiOiAiaHR0cHM6Ly9pLmliYi5jby92NDZQNUcxcS9BUlQtV09SS1MtODAteC04MC1weC5wbiIsICJwdXJwb3NlcyI6ICJhbnkifV0sICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAic3RhcnRfdXJsIjogIi4vaW5kZXguaHRtbCIsICJuYW1lIjogIlJhbWFkaGFuIFdvcmxkIEFwcCIsICJzaG9ydF9uYW1lIjogIlJhbWFkaGFuQXBwIiwgImRlc2NyaXB0aW9uIjogIllvdXIgZGFpbHkgY29tcGFuaW9uIGZvciBSYW1hZGhhbiBhbmQgSXNsYW1pYyBwcmFjdGljZXMuIiwgImJhY2tncm91bmRfY29sb3IiOiAiIzExMTgyNyIsICJ0aGVtZV9jb2xvciI6ICIjMDZCNkQ0QjMzRDQifQ==">
+    <!-- PWA Manifest Link - Embedded as Data URI for self-contained HTML for sandboxed environments -->
+    <!-- For a live deployment over HTTPS, this should be a separate file (e.g., <link rel="manifest" href="/manifest.json">) -->
+    <link rel="manifest" href="data:application/json;base64,eyJpY29ucyI6IFt7InNpemVzIjogIjgweDgwIiwgInR5cGUiOiAiaW1hZ2UvcG5nIiwgInNyYyI6ICJodHRwczovL2kuaWJiLmNvL3Y0NlA1RzFxL0FSVC1XT1JLUy04MC14LTgwLXB4LnBuZyJ9LCB7InNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAic3JjIjogImh0dHBzOi8vcGxhY2Vob2xkLmNvLzE5MngxOTIvMzc0MTUxL2ZmZmZmZj90ZXh0PUFwcCtJY29uIiwicHVycG9zZSI6ICJhbnkgbWFza2FibGUifSwgeyJzaXplcyI6ICI1MTJ4NTEyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIiwgInNyYyI6ICJodHRwczovL3BsYWNlaG9sZC5jby81MTJ4NTEyLzM3NDUxMS9mZmZmZmY/dGV4dD1BcHArSWNvbiIsInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIn1dLCJkZXNjcmlwdGlvbiI6ICJZb3VyIGRhaWx5IGNvbXBhbmlvbiBmb3IgUmFtYWRoYW4gYW5kIElzbGFtaWMgcHJhY3RpY2VzLiIsImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsIm5hbWUiOiAiUmFtYWRoYW4gV29ybGQgQXBwIiwic2hvcnRfbmFtZSI6ICJSYW1hZGhhbkFwcCIsInN0YXJ0X3VybCI6ICIvUkFESU9SQU1BREhBTi9pbmRleC5odG1sIiwidGhlbWVfY29sb3IiOiAiIzA2QjZENEJDM0Q0IiwiYmFja2dyb3VuZF9jb2xvciI6ICIjMTExODI3Iiwib3JpZW50YXRpb24iOiAicG9ydHJhaXQtcHJpbWFyeSJ9">
 
     <!-- PWA Full-Screen Meta Tags -->
     <!-- These meta tags help the app behave like a native app when added to the home screen -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Ramadhan App">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/v46P5G1q/ART-WORKS-80-x-80-px.png">
+
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -486,10 +489,15 @@
                             <input type="radio" id="azan-silent" name="azan-notification" value="silent" class="mr-2">
                             <label for="azan-silent">Do not notify (show time only)</label>
                         </div>
-                        <!-- New "Install App" button now always visible -->
-                        <button id="install-app-button" class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition">
+                        <!-- "Install App" button - initially hidden, shown by JS if PWA is installable -->
+                        <button id="install-app-button" class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition hidden">
                             <i class="fas fa-mobile-alt mr-2"></i> Install App
                         </button>
+                        <p id="install-app-fallback" class="text-sm text-gray-400 mt-2 hidden">
+                            To install, use your browser's "Add to Home Screen" or "Install App" option.
+                            On iOS (Safari): Tap the Share button (↑) then 'Add to Home Screen'.
+                            On Android (Chrome): Tap the menu (⋮) then 'Add to Home Screen'.
+                        </p>
                     </div>
 
                     <button onclick="saveSettings()" class="mt-6 w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded-lg transition">Save Settings</button>
@@ -581,8 +589,9 @@
         // Naat player buttons
         const tvPauseButton = document.getElementById('tv-pause-button');
 
-        // PWA Install button
+        // PWA Install button and fallback message
         const installAppButton = document.getElementById('install-app-button');
+        const installAppFallback = document.getElementById('install-app-fallback');
         let deferredPrompt; // To store the beforeinstallprompt event
 
         let countdownInterval;
@@ -601,7 +610,7 @@
 
         // Only the working radio station
         const radioStations = [
-            { name: "Ramadhan World", url: "https://ramadhan786.radioca.st/;" }, 
+            { name: "Ramadhan World", url: "https://ramadhan786.radioca.st/" }, 
         ];
 
         // --- Core Functions ---
@@ -829,36 +838,30 @@
         function startCompass() {
             if (qiblaAngle === null) {
                 qiblaDirectionEl.textContent = 'Qibla direction unavailable. Please ensure location is enabled and try again.';
-                // No need to show qiblaWarningEl here, as it's handled by geolocation success/failure
                 console.warn("Qibla angle is null, cannot start compass accurately.");
                 return;
             }
 
             // Update initial Qibla direction text
-            qiblaDirectionEl.textContent = `Qibla Direction: ${qiblaAngle.toFixed(2)}° from North. Rotate device to align with Qibla.`;
+            qiblaDirectionEl.textContent = `Qibla Direction: ${qiblaAngle.toFixed(2)}° from North. Rotate your device until the blue line points upwards.`;
 
             if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') {
                 DeviceOrientationEvent.requestPermission()
                     .then(permissionState => {
                         if (permissionState === 'granted') {
                             window.addEventListener('deviceorientation', handleOrientation);
-                            // No need to hide qiblaWarningEl here, as it's handled by geolocation success/failure
                         } else {
                              qiblaDirectionEl.textContent = "Permission for device orientation not granted.";
-                             // No need to show qiblaWarningEl here, as it's handled by geolocation success/failure
                         }
                     })
                     .catch(e => {
                         console.error("DeviceOrientationEvent permission error:", e);
                         qiblaDirectionEl.textContent = "Device orientation permission failed.";
-                        // No need to show qiblaWarningEl here, as it's handled by geolocation success/failure
                     });
             } else if ('ondeviceorientation' in window) {
                 window.addEventListener('deviceorientation', handleOrientation);
-                // No need to hide qiblaWarningEl here, as it's handled by geolocation success/failure
             } else {
                 qiblaDirectionEl.textContent = "Device orientation not supported on this browser.";
-                // No need to show qiblaWarningEl here, as it's handled by geolocation success/failure
             }
         }
         
@@ -1247,7 +1250,10 @@
             e.preventDefault();
             // Stash the event so it can be triggered later.
             deferredPrompt = e;
-            // The button is now always visible, so no need to unhide it here.
+            // Show the install button
+            installAppButton.classList.remove('hidden');
+            // Hide the fallback message if the button is shown
+            installAppFallback.classList.add('hidden');
             console.log('beforeinstallprompt fired. PWA install prompt available.');
         });
 
@@ -1264,18 +1270,10 @@
                 // If the user accepts, the appinstalled event will fire. If they dismiss, the button remains visible.
             } else {
                 // Fallback for browsers that don't support beforeinstallprompt or if it hasn't fired
-                let message = "Bookmark this page for quick access.";
-                // Detect iOS Safari (common case where beforeinstallprompt doesn't fire)
-                // Note: Safari on iOS does not support the beforeinstallprompt event.
-                // Users must manually add to home screen via the share sheet.
-                if (/(iPhone|iPad|iPod)/i.test(navigator.userAgent) && !window.MSStream && !navigator.userAgent.includes('CriOS')) {
-                    message = "On iOS (Safari): Tap the Share button (↑) then 'Add to Home Screen'.";
-                } 
-                // Detect Android Chrome (though beforeinstallprompt usually covers this, good for robustness)
-                else if (/Android/i.test(navigator.userAgent) && /Chrome/i.test(navigator.userAgent)) {
-                    message = "On Android (Chrome): Tap the menu (⋮) then 'Add to Home Screen'.";
-                }
-                showTemporaryMessage(message, false); // Show as a regular message
+                // This message should ideally be hidden if the button is shown.
+                // It's primarily for environments where beforeinstallprompt never fires.
+                installAppFallback.classList.remove('hidden');
+                installAppButton.classList.add('hidden');
                 console.log('PWA installation not directly supported or prompt not available.');
             }
         });
@@ -1284,9 +1282,19 @@
         window.addEventListener('appinstalled', () => {
             console.log('PWA was installed');
             // Hide the install button as the app is now installed
-            installAppButton.classList.add('hidden'); // Hide the button after successful installation
+            installAppButton.classList.add('hidden'); 
             // Show a success message to the user
             showTemporaryMessage('Ramadhan World App installed successfully!');
+        });
+
+        // Fallback for browsers that don't support beforeinstallprompt or if it hasn't fired
+        // This runs on initial load to determine if the fallback message should be visible.
+        window.addEventListener('load', () => {
+            if (!('BeforeInstallPromptEvent' in window)) {
+                // If BeforeInstallPromptEvent is not supported, show fallback message
+                installAppFallback.classList.remove('hidden');
+                installAppButton.classList.add('hidden');
+            }
         });
 
 
