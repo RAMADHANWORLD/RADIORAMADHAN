@@ -11,7 +11,7 @@
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
     <meta name="author" content="RamadhanWorld Team">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial="initial-scale=1.0">
 
     <!-- Open Graph Tags for Social Sharing -->
     <meta property="og:title" content="Radio Ramadhan | Live Islamic Radio for Ramadan">
@@ -40,6 +40,16 @@
       }
     }
     </script>
+
+    <!-- PWA Manifest Link - Embedded as Data URI for self-contained HTML -->
+    <!-- In a real-world scenario, this would be a separate file (e.g., manifest.json) -->
+    <!-- For Gemini preview, embedding as data URI is often necessary. -->
+    <link rel="manifest" href="data:application/json;base64,eyJpY29ucyI6IFt7InNpemVzIjogIjgweDgwIiwgInR5cGUiOiAiaW1hZ2UvcG5nIiwgInNyYyI6ICJodHRwczovL2iuaWJiLmNvL3Y0NlA1RzFxL0FSVC1XT1JLUy04MC14LTgwLXB4LnBuZyJ9LCB7InNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAic3JjIjogImh0dHBzOi8vaS5pYmIuY28vdmQ5NnQ2NS9BUlQtV09SS1MtMTkyLXgxOTItcHhuZy5wbmciLCAicHVycG9zZXMiOiAiYW55In0sIHsic2l6ZXMiOiAiNTEyeDUxMiIsICJ0eXBlIjogImltYWdlL3BuZyIsICJzcmMiOiAiaHR0cHM6Ly9pLmliYi5jby92NDZQNUcxcS9BUlQtV09SS1MtODAteC04MC1weC5wbiIsICJwdXJwb3NlcyI6ICJhbnkifV0sICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAic3RhcnRfdXJsIjogIi4vaW5kZXguaHRtbCIsICJuYW1lIjogIlJhbWFkaGFuIFdvcmxkIEFwcCIsICJzaG9ydF9uYW1lIjogIlJhbWFkaGFuQXBwIiwgImRlc2NyaXB0aW9uIjogIllvdXIgZGFpbHkgY29tcGFuaW9uIGZvciBSYW1hZGhhbiBhbmQgSXNsYW1pYyBwcmFjdGljZXMuIiwgImJhY2tncm91bmRfY29sb3IiOiAiIzExMTgyNyIsICJ0aGVtZV9jb2xvciI6ICIjMDZCNkQ0QjMzRDQifQ==">
+
+    <!-- PWA Full-Screen Meta Tags -->
+    <!-- These meta tags help the app behave like a native app when added to the home screen -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -167,8 +177,8 @@
         }
         #compass .direction-marker.north { top: 8px; left: 50%; transform: translateX(-50%); color: #ef4444; /* red-500 */ }
         #compass .direction-marker.south { bottom: 8px; left: 50%; transform: translateX(-50%); }
-        #compass .direction-marker.west { left: 8px; top: 50%; transform: translateY(-50%); }
         #compass .direction-marker.east { right: 8px; top: 50%; transform: translateY(-50%); }
+        #compass .direction-marker.west { left: 8px; top: 50%; transform: translateY(-50%); }
 
         /* Directional lines */
         #compass .direction-line {
@@ -476,6 +486,10 @@
                             <input type="radio" id="azan-silent" name="azan-notification" value="silent" class="mr-2">
                             <label for="azan-silent">Do not notify (show time only)</label>
                         </div>
+                        <!-- New "Install App" button now always visible -->
+                        <button id="install-app-button" class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition">
+                            <i class="fas fa-mobile-alt mr-2"></i> Install App
+                        </button>
                     </div>
 
                     <button onclick="saveSettings()" class="mt-6 w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded-lg transition">Save Settings</button>
@@ -503,8 +517,9 @@
         </footer>
     </div>
     
-    <audio id="azan-fajr-audio" src="fajr.mp3" preload="auto"></audio>
-    <audio id="azan-other-audio" src="other salah.mp3" preload="auto"></audio>
+    <!-- Updated Azan audio sources -->
+    <audio id="azan-fajr-audio" src="https://islamic-sound.com/wp-content/uploads/2022/10/azan-2.mp3" preload="auto"></audio>
+    <audio id="azan-other-audio" src="https://islamic-sound.com/wp-content/uploads/2022/10/azan-2.mp3" preload="auto"></audio>
     <div id="settings-saved-message" class="settings-saved-message hidden">Settings Saved!</div>
     <div id="azan-play-failed-message" class="settings-saved-message hidden bg-red-500">Azan audio blocked by browser. Please interact with the page.</div>
 
@@ -512,6 +527,9 @@
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
+        // --- Constants ---
+        const LAST_LISTENED_KEY = 'lastListenedQuran'; // Key for localStorage
+
         // --- DOM Elements & State ---
         const loadingScreen = document.getElementById('loading-screen');
         const mainContent = document.getElementById('main-content');
@@ -563,14 +581,19 @@
         // Naat player buttons
         const tvPauseButton = document.getElementById('tv-pause-button');
 
+        // PWA Install button
+        const installAppButton = document.getElementById('install-app-button');
+        let deferredPrompt; // To store the beforeinstallprompt event
+
         let countdownInterval;
         let userCoords = { latitude: 24.8607, longitude: 67.0011 }; // Default: Karachi
-        let qiblaAngle = 0; // This will be updated from the API or calculated
+        let qiblaAngle = null; // Changed to null to indicate it's not yet determined
         let settings = { azanNotification: 'full' };
         let youtubePlayer; // YouTube player object
         let quranChapters = []; // Global variable to store surah data
         let currentPlayingQuranElement = null; // To track the currently playing surah element (for audio)
         let currentSurahIndex = -1; // To keep track of the currently playing surah's index for audio playback
+        let quranLoaded = false; // Flag to track if Quran list has been loaded
 
         // Qibla calculation constants
         const kaabaLat = 21.4225;
@@ -586,34 +609,66 @@
         async function initializeApp() {
             loadSettings();
             await getUserLocation();
-            populateQuranList(); // Re-enable populating Quran list for audio
+            // Removed populateQuranList() from here to defer loading
             // Set initial text for the home radio player
             homeCurrentStationName.textContent = "Ready to play Ramadhan World Radio";
+            hideLoading(); // Hide loading screen once initial data is fetched
+            showView('home'); // Show home view once loaded
         }
 
-        async function getPrayerTimes(city, country) {
+        async function getPrayerTimes(latitude, longitude) { // Updated function signature
             try {
                 const date = new Date();
                 const dateString = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-                const apiUrl = `https://api.aladhan.com/v1/timingsByCity/${dateString}?city=${city}&country=${country}&method=2`;
+                // Updated API URL to use latitude and longitude
+                const apiUrl = `https://api.aladhan.com/v1/timings/${dateString}?latitude=${latitude}&longitude=${longitude}&method=2`;
 
                 const response = await fetch(apiUrl);
-                if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
+                if (!response.ok) {
+                    // If response is not OK (e.g., 404, 500), still treat as an error
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
                 const data = await response.json();
 
                 if (data.code === 200) {
                     displayPrayerTimes(data.data);
                     updateCountdown(data.data.timings);
-                    // The Qibla angle will now be calculated in startCompass based on user location
-                    // No need to set qiblaAngle from aladhan.com here anymore if using client-side calculation
+                    // Update Qibla angle and display it
+                    // Corrected path to qibla direction
+                    if (data.data.meta && typeof data.data.meta.qibla !== 'undefined') { // Corrected path to meta.qibla
+                        qiblaAngle = data.data.meta.qibla;
+                        qiblaDirectionEl.textContent = `Qibla is at ${qiblaAngle.toFixed(2)}° from North. Rotate your device until the blue line points upwards.`; // Changed text for blue line
+                    } else {
+                        qiblaDirectionEl.textContent = 'Qibla direction not available for this location.';
+                        console.warn("Qibla direction not found in API response.");
+                    }
                 } else {
                     throw new Error('Could not fetch prayer times from the API.');
                 }
             } catch (error) {
                 console.error("Error fetching prayer times:", error);
                 locationEl.textContent = "Could not fetch prayer times. Please try again.";
-            } finally {
-                hideLoading();
+            }
+        }
+
+        async function getQiblaDirection(latitude, longitude) {
+            try {
+                const qiblaApiUrl = `https://api.aladhan.com/v1/qibla/${latitude}/${longitude}`;
+                const response = await fetch(qiblaApiUrl);
+                if (!response.ok) {
+                    throw new Error(`Qibla API request failed with status ${response.status}`);
+                }
+                const data = await response.json();
+                if (data.code === 200 && data.data && typeof data.data.direction !== 'undefined') {
+                    qiblaAngle = data.data.direction;
+                    // No need to hide qiblaWarningEl here, as it's handled by geolocation success/failure
+                } else {
+                    qiblaAngle = null;
+                    console.warn("Qibla direction not found in API response from dedicated Qibla API.");
+                }
+            } catch (error) {
+                qiblaAngle = null;
+                console.error("Error fetching Qibla direction:", error);
             }
         }
 
@@ -628,20 +683,25 @@
                             const city = data.address.city || data.address.town || data.address.village || 'Unknown City';
                             const country = data.address.country || 'Unknown Country';
                             locationEl.textContent = `${city}, ${country}`;
-                            await getPrayerTimes(city, country); // This will fetch prayer times
+                            // Corrected: pass position.coords.longitude directly
+                            await getPrayerTimes(userCoords.latitude, position.coords.longitude); 
+                            await getQiblaDirection(userCoords.latitude, userCoords.longitude); // Fetch Qibla using new API
                         } catch (error) {
                             locationEl.textContent = "Could not determine city. Using default.";
-                            await getPrayerTimes("Karachi", "Pakistan");
+                            await getPrayerTimes(24.8607, 67.0011); // Karachi coordinates
+                            await getQiblaDirection(24.8607, 67.0011); // Fetch Qibla for Karachi
                         }
                         resolve();
                     }, async () => {
                         locationEl.textContent = "Location denied. Showing times for Karachi, Pakistan.";
-                        await getPrayerTimes("Karachi", "Pakistan");
+                        await getPrayerTimes(24.8607, 67.0011); // Karachi coordinates
+                        await getQiblaDirection(24.8607, 67.0011); // Fetch Qibla for Karachi
                         resolve();
                     });
                 } else {
                     locationEl.textContent = "Geolocation not supported. Showing times for Karachi, Pakistan.";
-                    getPrayerTimes("Karachi", "Pakistan");
+                    getPrayerTimes(24.8607, 67.0011); // Karachi coordinates
+                    getQiblaDirection(24.8607, 67.0011); // Fetch Qibla for Karachi
                     resolve();
                 }
             });
@@ -651,10 +711,8 @@
             const timings = data.timings;
             islamicDateEl.textContent = `${data.date.hijri.weekday.en}, ${data.date.hijri.day} ${data.date.hijri.month.en} ${data.date.hijri.year}`;
             
-            // Update prayer times in the Salah view
             for (const prayer in salahPrayerTimeElements) {
-                // Ensure the element exists before trying to set textContent
-                if (salahPrayerTimeElements[prayer] && timings[prayer]) {
+                if (salahPrayerTimeElements[prayer]) {
                     salahPrayerTimeElements[prayer].textContent = formatTime(timings[prayer]);
                 }
             }
@@ -666,7 +724,6 @@
                 const now = new Date();
                 const nextPrayer = findNextPrayer(now, timings);
 
-                // Remove active class from all prayer times first
                 document.querySelectorAll('.prayer-time').forEach(el => el.classList.remove('active'));
 
                 if (nextPrayer) {
@@ -674,7 +731,6 @@
                     const prayerTime = new Date(now.toDateString() + ' ' + nextPrayer.time);
                     const diff = prayerTime.getTime() - now.getTime();
                     
-                    // Add active class to the current next prayer
                     const nextPrayerElement = document.getElementById(`salah-${nextPrayer.name.toLowerCase()}`);
                     if (nextPrayerElement) {
                         nextPrayerElement.classList.add('active');
@@ -686,19 +742,16 @@
                         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
                         countdownTimerEl.textContent = `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
 
-                        // Check if it's time for Azan
                         if (hours === 0 && minutes === 0 && seconds === 0) {
                             handleAzan(nextPrayer.name);
                         }
                     } else {
-                        // If prayer time has passed, re-fetch times to get next day's timings if needed
-                        setTimeout(getUserLocation, 2000); 
+                        setTimeout(() => getPrayerTimes(userCoords.latitude, userCoords.longitude), 2000); 
                     }
                 } else {
-                    // All prayers for today have passed, show Fajr for tomorrow
                     nextPrayerNameEl.textContent = 'Fajr (Tomorrow)';
                     const prayerTime = new Date(now.toDateString() + ' ' + timings['Fajr']);
-                    prayerTime.setDate(prayerTime.getDate() + 1); // Set to tomorrow's Fajr
+                    prayerTime.setDate(prayerTime.getDate() + 1);
                     const diff = prayerTime.getTime() - now.getTime();
                     const hours = Math.floor(diff / (1000 * 60 * 60));
                     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -711,7 +764,6 @@
         function findNextPrayer(now, timings) {
             const prayerOrder = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
             for (const prayerName of prayerOrder) {
-                // Ensure timings[prayerName] exists before using it
                 if (timings[prayerName]) {
                     const prayerTime = new Date(now.toDateString() + ' ' + timings[prayerName]);
                     if (prayerTime > now) return { name: prayerName, time: timings[prayerName] };
@@ -728,22 +780,23 @@
             if (youtubePlayer && typeof youtubePlayer.pauseVideo === 'function') {
                 youtubePlayer.pauseVideo();
             }
-            // Pause Quran audio if it's playing
+            azanFajrAudio.pause();
+            azanOtherAudio.pause();
             quranAudioPlayer.pause();
 
             Object.values(views).forEach(view => {
-                if (view) { // Ensure view element exists before accessing classList
+                if (view) { 
                     view.classList.add('hidden');
                 }
             });
 
-            if (views[viewName]) { // Ensure target view element exists
+            if (views[viewName]) { 
                 views[viewName].classList.remove('hidden');
             }
             
             document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
             const activeButton = document.querySelector(`.nav-button[onclick="showView('${viewName}')"]`);
-            if (activeButton) { // Ensure button element exists
+            if (activeButton) { 
                 activeButton.classList.add('active');
             }
             
@@ -753,9 +806,13 @@
                 stopCompass();
             }
 
-            // If navigating to Naat view, attempt to play video
+            if (viewName === 'quran' && !quranLoaded) {
+                populateQuranList();
+                quranLoaded = true;
+            }
+
             if (viewName === 'naat' && youtubePlayer) {
-                playVideo(); // Attempt to play when Naat view is shown
+                playVideo(); 
             }
         }
 
@@ -770,40 +827,38 @@
         // --- Qibla Compass ---
         
         function startCompass() {
-            // Calculate Qibla angle based on user's current location
-            if (userCoords.latitude && userCoords.longitude) {
-                const phiK = kaabaLat * Math.PI / 180;
-                const lambdaK = kaabaLng * Math.PI / 180;
-                const phi = userCoords.latitude * Math.PI / 180;
-                const lambda = userCoords.longitude * Math.PI / 180;
-
-                const deltaLambda = lambdaK - lambda;
-                const x = Math.sin(deltaLambda);
-                const y = Math.cos(phi) * Math.tan(phiK) - Math.sin(phi) * Math.cos(deltaLambda);
-                const angle = Math.atan2(x, y);
-                qiblaAngle = angle * 180 / Math.PI;
-                if (qiblaAngle < 0) qiblaAngle += 360;
-
-                qiblaDirectionEl.textContent = `Qibla Direction: ${qiblaAngle.toFixed(2)}° from North. Rotate device until the blue line points upwards.`;
-            } else {
-                qiblaDirectionEl.textContent = 'User location not available for Qibla calculation.';
-                console.warn("User location not available for Qibla calculation.");
+            if (qiblaAngle === null) {
+                qiblaDirectionEl.textContent = 'Qibla direction unavailable. Please ensure location is enabled and try again.';
+                // No need to show qiblaWarningEl here, as it's handled by geolocation success/failure
+                console.warn("Qibla angle is null, cannot start compass accurately.");
+                return;
             }
+
+            // Update initial Qibla direction text
+            qiblaDirectionEl.textContent = `Qibla Direction: ${qiblaAngle.toFixed(2)}° from North. Rotate device to align with Qibla.`;
 
             if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') {
                 DeviceOrientationEvent.requestPermission()
                     .then(permissionState => {
                         if (permissionState === 'granted') {
                             window.addEventListener('deviceorientation', handleOrientation);
+                            // No need to hide qiblaWarningEl here, as it's handled by geolocation success/failure
                         } else {
-                             qiblaDirectionEl.textContent = "Permission for device orientation not granted. Cannot show Qibla direction.";
+                             qiblaDirectionEl.textContent = "Permission for device orientation not granted.";
+                             // No need to show qiblaWarningEl here, as it's handled by geolocation success/failure
                         }
                     })
-                    .catch(console.error);
+                    .catch(e => {
+                        console.error("DeviceOrientationEvent permission error:", e);
+                        qiblaDirectionEl.textContent = "Device orientation permission failed.";
+                        // No need to show qiblaWarningEl here, as it's handled by geolocation success/failure
+                    });
             } else if ('ondeviceorientation' in window) {
                 window.addEventListener('deviceorientation', handleOrientation);
+                // No need to hide qiblaWarningEl here, as it's handled by geolocation success/failure
             } else {
-                qiblaDirectionEl.textContent = "Device orientation not supported on this browser. Cannot show Qibla direction.";
+                qiblaDirectionEl.textContent = "Device orientation not supported on this browser.";
+                // No need to show qiblaWarningEl here, as it's handled by geolocation success/failure
             }
         }
         
@@ -812,27 +867,29 @@
         }
 
         function handleOrientation(event) {
-            if (qiblaAngle === null) return; // Ensure Qibla angle is calculated
+            if (qiblaAngle === null) {
+                qiblaDirectionEl.textContent = 'Qibla direction unavailable.';
+                return;
+            }
 
             let alpha;
-            // Use webkitCompassHeading for iOS, otherwise event.alpha
             if (event.webkitCompassHeading) {
-                alpha = event.webkitCompassHeading; // 0-360, true north
+                alpha = event.webkitCompassHeading; 
             } else if (event.alpha !== null) {
-                alpha = event.alpha; // 0-360, relative to device's initial orientation
-                // For simplicity and broader compatibility, we'll assume alpha is absolute if available.
+                alpha = event.alpha; 
             } else {
                 qiblaDirectionEl.textContent = "Could not get device heading.";
                 return;
             }
 
-            // Rotate the Qibla marker to point towards Qibla relative to the device's current orientation.
+            // Rotate the Qibla marker (blue line) to point towards Qibla relative to the device's current orientation.
             // The qiblaAngle is the Qibla direction relative to True North.
             // Alpha is the device's current heading relative to True North.
             // To make the marker point to Qibla, it needs to rotate by (Qibla Angle - Device Heading).
+            // The SVG is designed to point upwards when rotation is 0.
             qiblaMarker.style.transform = `rotate(${qiblaAngle - alpha}deg)`;
 
-            qiblaDirectionEl.textContent = `Qibla: ${qiblaAngle.toFixed(2)}° from North. Your device is pointing ${alpha.toFixed(2)}° from North. Rotate until the blue line points upwards.`;
+            qiblaDirectionEl.textContent = `Qibla: ${qiblaAngle.toFixed(2)}° from North. Your device is pointing ${alpha.toFixed(2)}° from North. Rotate until the blue line points upwards.`; // Changed text for blue line
         }
 
 
@@ -842,9 +899,9 @@
             try {
                 const response = await fetch('https://api.quran.com/api/v4/chapters');
                 const data = await response.json();
-                quranChapters = data.chapters; // Store chapters globally
+                quranChapters = data.chapters; 
 
-                displaySurahsInList(quranChapters); // Always display all surahs
+                displaySurahsInList(quranChapters); 
             } catch (error) {
                 quranSurahList.innerHTML = `<p class="text-center col-span-full text-red-400">Failed to load Surahs for audio. Please check your internet connection.</p>`;
                 console.error("Error fetching Surahs:", error);
@@ -854,7 +911,7 @@
         function displaySurahsInList(surahsToDisplay) {
             quranSurahList.innerHTML = surahsToDisplay.map((surah, index) => `
                 <div class="quran-surah cursor-pointer p-3 rounded-lg flex justify-between items-center bg-gray-800 hover:bg-gray-700 transition"
-                     onclick="playSurah(${surah.id}, '${surah.name_simple}', this, ${index})"> <!-- Use actual index here -->
+                     onclick="playSurah(${surah.id}, '${surah.name_simple}', this, ${index})">
                     <div>
                         <p class="font-semibold">${surah.id}. ${surah.name_simple}</p>
                         <p class="text-sm text-gray-400">${surah.translated_name.name}</p>
@@ -869,7 +926,6 @@
 
         async function playSurah(surahId, surahName, element, index, startTime = 0) {
             try {
-                // Reverted to quran.com API for chapter recitations
                 const response = await fetch(`https://api.quran.com/api/v4/chapter_recitations/7/${surahId}`);
                 const { audio_file } = await response.json();
 
@@ -881,7 +937,6 @@
 
                 const audioUrl = audio_file.audio_url;
 
-                // If the same surah is already playing, pause it
                 if (quranAudioPlayer.src === audioUrl && !quranAudioPlayer.paused && startTime === 0) {
                     quranAudioPlayer.pause();
                     if (currentPlayingQuranElement) { 
@@ -892,9 +947,7 @@
                     currentSurahIndex = -1; 
                     saveLastListenedAudio(surahId, quranAudioPlayer.currentTime); 
                 } else {
-                    // If a different surah is playing or nothing is playing, play the new surah
                     if (currentPlayingQuranElement && currentPlayingQuranElement !== element) {
-                        // Reset the icon of the previously playing surah
                         currentPlayingQuranElement.querySelector('.play-icon').classList.remove('hidden');
                         currentPlayingQuranElement.querySelector('.pause-icon').classList.add('hidden');
                     }
@@ -940,17 +993,13 @@
                 saveLastListenedAudio(quranChapters[currentSurahIndex].id, 0); 
             }
 
-            // Attempt to play the next surah automatically
             if (quranChapters.length > 0 && currentSurahIndex !== -1) {
                 let nextIndex = currentSurahIndex + 1;
                 if (nextIndex >= quranChapters.length) {
-                    nextIndex = 0; // Loop back to the first surah
+                    nextIndex = 0; 
                 }
                 
                 const nextSurah = quranChapters[nextIndex];
-                // Find the corresponding DOM element for the next surah
-                // This assumes the order in quranSurahList.children matches quranChapters
-                // Use querySelector to find the element based on its surah ID in the onclick attribute
                 const nextSurahElement = document.querySelector(`#quran-surah-list div[onclick*="playSurah(${nextSurah.id}"]`);
                 
                 if (nextSurah && nextSurahElement) {
@@ -968,7 +1017,6 @@
             }
         };
 
-        // Save last listened position when audio is paused
         quranAudioPlayer.onpause = function() {
             if (currentSurahIndex !== -1 && quranChapters[currentSurahIndex]) {
                 saveLastListenedAudio(quranChapters[currentSurahIndex].id, quranAudioPlayer.currentTime);
@@ -985,13 +1033,11 @@
             const saved = localStorage.getItem(LAST_LISTENED_KEY);
             if (saved) {
                 const { surahId, currentTime } = JSON.parse(saved);
-                // Ensure quranChapters is populated before trying to find surah
                 if (quranChapters.length === 0) {
                     populateQuranList().then(() => {
                         const surah = quranChapters.find(s => s.id === surahId);
                         if (surah) {
-                            // Logic for resuming audio on load can be placed here if needed
-                            // For now, it just ensures the data is loaded for potential future use.
+                            // Logic for resuming audio on load can be placed here if needed.
                         }
                     }).catch(e => {
                         console.error("Error populating quran list for last listened audio on load:", e);
@@ -999,7 +1045,7 @@
                 } else {
                     const surah = quranChapters.find(s => s.id === surahId);
                     if (surah) {
-                        // Logic for resuming audio on load can be placed here if needed
+                        // Logic for resuming audio on load can be placed here if needed.
                     }
                 }
             }
@@ -1014,7 +1060,7 @@
                 if (surah && index !== -1) {
                     const surahElement = document.querySelector(`#quran-surah-list div[onclick*="playSurah(${surah.id}"]`);
                     
-                    showView('quran'); // Show the Quran audio view
+                    showView('quran'); 
                     playSurah(surah.id, surah.name_simple, surahElement, index, currentTime);
                 } else {
                     showTemporaryMessage('Could not resume listening. Surah not found.', true);
@@ -1072,11 +1118,11 @@
                 videoId: 'mU72MeSW5Zs', // Specific video ID
                 playerVars: {
                     'playsinline': 1,
-                    'autoplay': 0, // No autoplay on load, we'll try to play on view change
-                    'controls': 0, // Hide YouTube's controls
-                    'rel': 0, // Do not show related videos
-                    'showinfo': 0, // Hide video title and uploader info
-                    'modestbranding': 1, // Show a modest YouTube logo
+                    'autoplay': 0, 
+                    'controls': 0, 
+                    'rel': 0, 
+                    'showinfo': 0, 
+                    'modestbranding': 1, 
                     'listType': 'playlist',
                     'list': 'PL6b_3Yr67_wFpDJfaZLlMEUP6h5EroJi2' // Playlist ID
                 },
@@ -1092,7 +1138,6 @@
         }
 
         function onPlayerStateChange(event) {
-            // Update button visibility based on player state
             if (event.data === YT.PlayerState.PLAYING) {
                 tvPauseButton.classList.remove('hidden');
             } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
@@ -1138,30 +1183,26 @@
             if (settings.azanNotification === 'silent') return;
 
             let audioToPlay;
+            // Use the appropriate Azan audio based on prayerName
             if (prayerName === 'Fajr') {
                 audioToPlay = azanFajrAudio;
-            } else if (['Dhuhr', 'Asr', 'Maghrib', 'Isha'].includes(prayerName)) {
-                audioToPlay = azanOtherAudio;
             } else {
-                // Do not play audio for Sunrise or any unhandled prayer names
-                audioToPlay = null; 
+                audioToPlay = azanOtherAudio;
             }
 
             if (settings.azanNotification === 'full' && audioToPlay) {
-                // Attempt to play Azan. Browsers may block autoplay without prior user interaction.
                 audioToPlay.play().catch(e => {
                     console.error(`Azan audio play failed for ${prayerName}:`, e);
-                    // Inform the user if autoplay was blocked
-                    showTemporaryMessage('Azan audio blocked by browser. Please interact with the page.', true);
+                    showTemporaryMessage(`Azan audio for ${prayerName} blocked by browser. Please interact with the page.`, true);
                 });
             }
 
             if (Notification.permission === "granted") {
-                new Notification(`It's time for ${prayerName} prayer!`);
+                new Notification(`It's ${prayerName} time!`);
             } else if (Notification.permission !== "denied") {
                 Notification.requestPermission().then(permission => {
                     if (permission === "granted") {
-                        new Notification(`It's time for ${prayerName} prayer!`);
+                        new Notification(`It's ${prayerName} time!`);
                     }
                 });
             }
@@ -1187,7 +1228,7 @@
         // --- Utility Functions ---
 
         function formatTime(time24) {
-            const [hour, minute] = time24.split(':');
+            const [hour, minute] = time24.split(':'); 
             const h = parseInt(hour, 10);
             const ampm = h >= 12 ? 'PM' : 'AM';
             const h12 = h % 12 || 12;
@@ -1198,6 +1239,57 @@
             return num < 10 ? '0' + num : num;
         }
 
+        // --- PWA Installation Logic ---
+        // This event fires when the browser determines that the user can install the PWA.
+        // It's a good place to show your "Install App" button.
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+            // The button is now always visible, so no need to unhide it here.
+            console.log('beforeinstallprompt fired. PWA install prompt available.');
+        });
+
+        // Event listener for the "Install App" button click
+        installAppButton.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // Show the install prompt
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the install prompt: ${outcome}`);
+                // We've used the prompt, and it can't be used again. Clear it.
+                deferredPrompt = null;
+                // If the user accepts, the appinstalled event will fire. If they dismiss, the button remains visible.
+            } else {
+                // Fallback for browsers that don't support beforeinstallprompt or if it hasn't fired
+                let message = "Bookmark this page for quick access.";
+                // Detect iOS Safari (common case where beforeinstallprompt doesn't fire)
+                // Note: Safari on iOS does not support the beforeinstallprompt event.
+                // Users must manually add to home screen via the share sheet.
+                if (/(iPhone|iPad|iPod)/i.test(navigator.userAgent) && !window.MSStream && !navigator.userAgent.includes('CriOS')) {
+                    message = "On iOS (Safari): Tap the Share button (↑) then 'Add to Home Screen'.";
+                } 
+                // Detect Android Chrome (though beforeinstallprompt usually covers this, good for robustness)
+                else if (/Android/i.test(navigator.userAgent) && /Chrome/i.test(navigator.userAgent)) {
+                    message = "On Android (Chrome): Tap the menu (⋮) then 'Add to Home Screen'.";
+                }
+                showTemporaryMessage(message, false); // Show as a regular message
+                console.log('PWA installation not directly supported or prompt not available.');
+            }
+        });
+
+        // Event listener for when the app is successfully installed
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA was installed');
+            // Hide the install button as the app is now installed
+            installAppButton.classList.add('hidden'); // Hide the button after successful installation
+            // Show a success message to the user
+            showTemporaryMessage('Ramadhan World App installed successfully!');
+        });
+
+
         // --- Initial Load ---
         window.addEventListener('load', initializeApp);
 
@@ -1207,10 +1299,8 @@
             if (youtubePlayer && typeof youtubePlayer.pauseVideo === 'function') {
                 youtubePlayer.pauseVideo();
             }
-            // Also pause azan audio if it's playing
             azanFajrAudio.pause();
             azanOtherAudio.pause();
-            // Also pause Quran audio if it's playing
             quranAudioPlayer.pause();
         });
 
