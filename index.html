@@ -4,6 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ramadhan World App</title>
+    <!-- SEO Meta Tags -->
+    <meta name="title" content="Radio Ramadhan | Live Islamic Radio for Ramadan">
+    <meta name="description" content="Listen to 24/7 Islamic radio during Ramadan. Featuring Quran recitations, naats, duas, Islamic talks, and live Ramadhan transmissions.">
+    <meta name="keywords" content="Ramadan Radio, Islamic Radio, Live Quran, Islamic Nasheed, Ramadhan, Online Islamic Audio, Muslim Radio, RadioRamadhan">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="author" content="RamadhanWorld Team">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph Tags for Social Sharing -->
+    <meta property="og:title" content="Radio Ramadhan | Live Islamic Radio for Ramadan">
+    <meta property="og:description" content="24/7 Islamic audio stream with Quran, nasheeds, and Ramadan talks.">
+    <meta property="og:image" content="https://i.ibb.co/v46P5G1q/ART-WORKS-80-x-80-px.png">
+    <meta property="og:url" content="https://ramadhanworld.github.io/RADIORAMADHAN/">
+    <meta property="og:type" content="website">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RadioStation",
+      "name": "Ramadhan World Radio",
+      "url": "https://ramadhanworld.github.io/RADIORAMADHAN/",
+      "logo": "https://i.ibb.co/v46P5G1q/ART-WORKS-80-x-80-px.png",
+      "sameAs": [
+        "https://facebook.com/RadioRamadhan",
+        "https://twitter.com/RadioRamadhan"
+      ],
+      "description": "24/7 online Islamic radio with Quran, naats, duas, and Ramadan programming.",
+      "broadcastFrequency": "Online",
+      "areaServed": {
+        "@type": "Country",
+        "name": "Worldwide"
+      }
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -148,13 +185,21 @@
             width: 100%;
         }
 
-        /* Kaaba SVG styling */
+        /* Qibla Marker SVG styling (blue line) */
         #qibla-marker svg {
-            width: 60px; /* Adjust size as needed */
-            height: 60px; /* Adjust size as needed */
-            fill: #10B981; /* Green color for the Kaaba graphic */
-            filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.7)); /* Subtle glow */
+            width: 8px; /* Width of the line, increased for bolder */
+            height: 120px; /* Length of the line, increased for bigger */
+            fill: #06B6D4; /* Cyan color */
+            filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.7)); /* Subtle glow */
+            /* Position the line to be at the top of the compass, pointing upwards */
+            transform: translateY(-50%); /* Adjust to center the line vertically on the compass */
         }
+        #qibla-marker svg path {
+            stroke: #06B6D4; /* Line color */
+            stroke-width: 8px; /* Line thickness, increased for bolder */
+            fill: none; /* No fill for a line */
+        }
+
 
         /* Quran reading section styles */
         .quran-text-container {
@@ -293,8 +338,8 @@
     <div id="main-content" class="min-h-screen container mx-auto p-4 sm:p-6 lg:p-8 opacity-0 transition-opacity duration-1000">
         <!-- Header Section -->
         <header class="text-center mb-6">
-            <!-- Logo added here -->
-            <img id="app-logo" src="https://i.ibb.co/Zp0bgjsS/ART-WORKS-1.png" alt="Ramadhan World Logo" class="w-[200px] h-[200px] mx-auto mb-4 rounded-full shadow-lg object-contain">
+            <!-- Logo with Madina photo and smaller size -->
+            <img id="app-logo" src="https://i.ibb.co/v46P5G1q/ART-WORKS-80-x-80-px.png" alt="Madina Photo Logo" class="w-[80px] h-[80px] mx-auto mb-2 rounded-full shadow-lg object-cover" onerror="this.onerror=null;this.src='https://placehold.co/80x80/374151/ffffff?text=Logo';">
             <h1 class="text-4xl sm:text-5xl font-extrabold text-cyan-400">Ramadhan World</h1>
             <p id="islamic-date" class="text-lg text-gray-300 mt-2">Loading Islamic Date...</p>
             <p id="location" class="text-md text-gray-400 mt-1">Fetching location...</p>
@@ -304,10 +349,9 @@
         <nav class="flex justify-center gap-2 mb-6 flex-wrap">
             <button onclick="showView('home')" class="nav-button active px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Home</button>
             <button onclick="showView('qibla')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Qibla</button>
-            <button onclick="showView('listenQuran')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Quran</button> 
-            <!-- Removed Read Quran button -->
+            <button onclick="showView('quran')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Quran</button> 
             <button onclick="showView('salah')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Salah</button>
-            <button onclick="showView('naat')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Naat</button> <!-- Changed from TV -->
+            <button onclick="showView('naat')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Naat</button>
             <button onclick="showView('settings')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Settings</button>
         </nav>
 
@@ -357,9 +401,9 @@
                         
                         <!-- Qibla Marker (the main rotating indicator) -->
                         <div id="qibla-marker" class="absolute w-full h-full flex items-center justify-center">
-                            <!-- Kaaba SVG Icon -->
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="transform -translate-y-1/2">
-                                <path d="M12 2L2 7V17L12 22L22 17V7L12 2ZM12 4.31L19.5 8.06V15.94L12 19.69L4.5 15.94V8.06L12 4.31ZM12 10.5L19 14.5V9.5L12 5.5L5 9.5V14.5L12 10.5Z" fill="#10B981"/>
+                            <!-- Blue line for Qibla -->
+                            <svg width="8" height="120" viewBox="0 0 8 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 0L4 120" stroke="#06B6D4" stroke-width="8"/>
                             </svg>
                         </div>
                     </div>
@@ -368,8 +412,8 @@
                 </div>
             </div>
 
-            <!-- Listen Quran View (now just "Quran" view for audio) -->
-            <div id="listen-quran-view" class="hidden">
+            <!-- Quran View (now for audio recitation) -->
+            <div id="quran-view" class="hidden">
                  <div class="card rounded-2xl p-6 max-w-4xl mx-auto">
                     <h2 class="text-2xl font-semibold mb-4 text-center">Holy Quran Recitation</h2>
                     
@@ -382,8 +426,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Removed Read Quran View (formerly Recite Quran) -->
 
             <!-- Salah View (formerly Radio View) -->
             <div id="salah-view" class="hidden">
@@ -405,7 +447,7 @@
             <!-- Naat View (formerly TV View) -->
             <div id="naat-view" class="hidden">
                 <div class="card rounded-2xl p-6 mx-auto text-center">
-                    <h2 class="text-2xl font-semibold mb-4">Naat Collection</h2> <!-- Changed from Ramadhan World TV -->
+                    <h2 class="text-2xl font-semibold mb-4">Naat Collection</h2>
                     <div class="video-container mb-4">
                         <div id="youtube-player"></div>
                     </div>
@@ -435,8 +477,6 @@
                             <label for="azan-silent">Do not notify (show time only)</label>
                         </div>
                     </div>
-
-                    <!-- Removed Quran Translation Language section -->
 
                     <button onclick="saveSettings()" class="mt-6 w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded-lg transition">Save Settings</button>
                 </div>
@@ -493,15 +533,15 @@
         const views = { 
             home: document.getElementById('home-view'), 
             qibla: document.getElementById('qibla-view'), 
-            listenQuran: document.getElementById('listen-quran-view'), 
+            quran: document.getElementById('quran-view'), // Now for audio
             salah: document.getElementById('salah-view'), 
-            naat: document.getElementById('naat-view'), // Changed from tv
+            naat: document.getElementById('naat-view'),
             settings: document.getElementById('settings-view') 
         };
         const qiblaDirectionEl = document.getElementById('qibla-direction');
         const qiblaMarker = document.getElementById('qibla-marker');
         
-        // Listen Quran specific elements
+        // Quran Audio specific elements (re-introduced)
         const quranSurahList = document.getElementById('quran-surah-list');
         const quranPlayer = document.getElementById('quran-player');
         const quranAudioPlayer = document.getElementById('quran-audio-player');
@@ -520,22 +560,21 @@
         const settingsSavedMessage = document.getElementById('settings-saved-message');
         const azanPlayFailedMessage = document.getElementById('azan-play-failed-message');
 
-        // Naat player buttons (formerly TV)
-        const tvPauseButton = document.getElementById('tv-pause-button'); // Renamed to tv-pause-button for consistency with previous code
+        // Naat player buttons
+        const tvPauseButton = document.getElementById('tv-pause-button');
 
         let countdownInterval;
         let userCoords = { latitude: 24.8607, longitude: 67.0011 }; // Default: Karachi
-        let qiblaAngle = 0; // This will be updated from the API
-        let settings = { azanNotification: 'full' }; // Removed quranTranslationLanguage from settings
-        let currentPlayingQuranElement = null; // To track the currently playing surah element (for audio)
+        let qiblaAngle = 0; // This will be updated from the API or calculated
+        let settings = { azanNotification: 'full' };
         let youtubePlayer; // YouTube player object
         let quranChapters = []; // Global variable to store surah data
+        let currentPlayingQuranElement = null; // To track the currently playing surah element (for audio)
         let currentSurahIndex = -1; // To keep track of the currently playing surah's index for audio playback
 
-        // Local storage keys
-        const LAST_LISTENED_KEY = 'ramadanAppLastListened';
-        // Removed QURAN_TRANSLATION_KEY as it's no longer needed
-
+        // Qibla calculation constants
+        const kaabaLat = 21.4225;
+        const kaabaLng = 39.8262;
 
         // Only the working radio station
         const radioStations = [
@@ -547,8 +586,7 @@
         async function initializeApp() {
             loadSettings();
             await getUserLocation();
-            await populateQuranList(); // Ensure chapters are loaded before attempting to load last listened
-            loadLastListenedAudio();
+            populateQuranList(); // Re-enable populating Quran list for audio
             // Set initial text for the home radio player
             homeCurrentStationName.textContent = "Ready to play Ramadhan World Radio";
         }
@@ -566,16 +604,8 @@
                 if (data.code === 200) {
                     displayPrayerTimes(data.data);
                     updateCountdown(data.data.timings);
-                    // Update Qibla angle and display it
-                    if (data.data.meta && typeof data.data.meta.qibla !== 'undefined') {
-                        qiblaAngle = data.data.meta.qibla;
-                        qiblaDirectionEl.textContent = `Qibla is at ${qiblaAngle.toFixed(2)}° from North. Rotate your device until the Kaaba icon points towards Makkah.`;
-                        // Initial Qibla marker rotation
-                        // The marker will be rotated by the device orientation in handleOrientation
-                    } else {
-                        qiblaDirectionEl.textContent = 'Qibla direction not available for this location.';
-                        console.warn("Qibla direction not found in API response.");
-                    }
+                    // The Qibla angle will now be calculated in startCompass based on user location
+                    // No need to set qiblaAngle from aladhan.com here anymore if using client-side calculation
                 } else {
                     throw new Error('Could not fetch prayer times from the API.');
                 }
@@ -598,7 +628,7 @@
                             const city = data.address.city || data.address.town || data.address.village || 'Unknown City';
                             const country = data.address.country || 'Unknown Country';
                             locationEl.textContent = `${city}, ${country}`;
-                            await getPrayerTimes(city, country);
+                            await getPrayerTimes(city, country); // This will fetch prayer times
                         } catch (error) {
                             locationEl.textContent = "Could not determine city. Using default.";
                             await getPrayerTimes("Karachi", "Pakistan");
@@ -694,11 +724,12 @@
 
         function showView(viewName) {
             // Pause all media when switching views
-            quranAudioPlayer.pause();
             homeRadioAudioPlayer.pause();
             if (youtubePlayer && typeof youtubePlayer.pauseVideo === 'function') {
                 youtubePlayer.pauseVideo();
             }
+            // Pause Quran audio if it's playing
+            quranAudioPlayer.pause();
 
             Object.values(views).forEach(view => {
                 if (view) { // Ensure view element exists before accessing classList
@@ -723,7 +754,7 @@
             }
 
             // If navigating to Naat view, attempt to play video
-            if (viewName === 'naat' && youtubePlayer) { // Changed from tv
+            if (viewName === 'naat' && youtubePlayer) {
                 playVideo(); // Attempt to play when Naat view is shown
             }
         }
@@ -739,12 +770,31 @@
         // --- Qibla Compass ---
         
         function startCompass() {
+            // Calculate Qibla angle based on user's current location
+            if (userCoords.latitude && userCoords.longitude) {
+                const phiK = kaabaLat * Math.PI / 180;
+                const lambdaK = kaabaLng * Math.PI / 180;
+                const phi = userCoords.latitude * Math.PI / 180;
+                const lambda = userCoords.longitude * Math.PI / 180;
+
+                const deltaLambda = lambdaK - lambda;
+                const x = Math.sin(deltaLambda);
+                const y = Math.cos(phi) * Math.tan(phiK) - Math.sin(phi) * Math.cos(deltaLambda);
+                const angle = Math.atan2(x, y);
+                qiblaAngle = angle * 180 / Math.PI;
+                if (qiblaAngle < 0) qiblaAngle += 360;
+
+                qiblaDirectionEl.textContent = `Qibla Direction: ${qiblaAngle.toFixed(2)}° from North. Rotate device until the blue line points upwards.`;
+            } else {
+                qiblaDirectionEl.textContent = 'User location not available for Qibla calculation.';
+                console.warn("User location not available for Qibla calculation.");
+            }
+
             if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') {
                 DeviceOrientationEvent.requestPermission()
                     .then(permissionState => {
                         if (permissionState === 'granted') {
                             window.addEventListener('deviceorientation', handleOrientation);
-                            qiblaDirectionEl.textContent = `Qibla is at ${qiblaAngle.toFixed(2)}° from North. Rotate your device until the Kaaba icon points towards Makkah.`;
                         } else {
                              qiblaDirectionEl.textContent = "Permission for device orientation not granted. Cannot show Qibla direction.";
                         }
@@ -752,8 +802,6 @@
                     .catch(console.error);
             } else if ('ondeviceorientation' in window) {
                 window.addEventListener('deviceorientation', handleOrientation);
-                // Removed reference to alpha here as it's not defined in this scope initially
-                qiblaDirectionEl.textContent = `Qibla is at ${qiblaAngle.toFixed(2)}° from North. Rotate your device until the Kaaba icon points towards Makkah.`;
             } else {
                 qiblaDirectionEl.textContent = "Device orientation not supported on this browser. Cannot show Qibla direction.";
             }
@@ -764,6 +812,8 @@
         }
 
         function handleOrientation(event) {
+            if (qiblaAngle === null) return; // Ensure Qibla angle is calculated
+
             let alpha;
             // Use webkitCompassHeading for iOS, otherwise event.alpha
             if (event.webkitCompassHeading) {
@@ -782,7 +832,7 @@
             // To make the marker point to Qibla, it needs to rotate by (Qibla Angle - Device Heading).
             qiblaMarker.style.transform = `rotate(${qiblaAngle - alpha}deg)`;
 
-            qiblaDirectionEl.textContent = `Qibla: ${qiblaAngle.toFixed(2)}° from North. Your device is pointing ${alpha.toFixed(2)}° from North. Rotate until the Kaaba icon points towards Makkah.`;
+            qiblaDirectionEl.textContent = `Qibla: ${qiblaAngle.toFixed(2)}° from North. Your device is pointing ${alpha.toFixed(2)}° from North. Rotate until the blue line points upwards.`;
         }
 
 
@@ -840,7 +890,6 @@
                     }
                     currentPlayingQuranElement = null;
                     currentSurahIndex = -1; 
-                    currentSurahName.textContent = `Paused: ${surahName}`;
                     saveLastListenedAudio(surahId, quranAudioPlayer.currentTime); 
                 } else {
                     // If a different surah is playing or nothing is playing, play the new surah
@@ -927,9 +976,6 @@
         };
 
 
-        // Removed all functions related to Read Quran view, as the view itself is removed.
-
-
         function saveLastListenedAudio(surahId, currentTime) {
             const lastListened = { surahId: surahId, currentTime: currentTime };
             localStorage.setItem(LAST_LISTENED_KEY, JSON.stringify(lastListened));
@@ -968,7 +1014,7 @@
                 if (surah && index !== -1) {
                     const surahElement = document.querySelector(`#quran-surah-list div[onclick*="playSurah(${surah.id}"]`);
                     
-                    showView('listenQuran'); 
+                    showView('quran'); // Show the Quran audio view
                     playSurah(surah.id, surah.name_simple, surahElement, index, currentTime);
                 } else {
                     showTemporaryMessage('Could not resume listening. Surah not found.', true);
@@ -1018,11 +1064,7 @@
             };
         }
 
-        function populateRadioList() {
-            // This function is now empty as radio stations are directly handled by playRamadhanWorldRadio
-        }
-
-        // --- YouTube Naat Section (formerly TV Section) ---
+        // --- YouTube Naat Section ---
         function onYouTubeIframeAPIReady() {
             youtubePlayer = new YT.Player('youtube-player', {
                 height: '360',
@@ -1077,7 +1119,6 @@
         
         function saveSettings() {
             settings.azanNotification = document.querySelector('input[name="azan-notification"]:checked').value;
-            // Removed Quran Translation Language setting save
             localStorage.setItem('ramadanAppSettings', JSON.stringify(settings));
             showTemporaryMessage('Settings Saved!');
         }
@@ -1090,7 +1131,6 @@
                 if (azanRadioInput) {
                     azanRadioInput.checked = true;
                 }
-                // Removed Quran Translation Language setting load
             }
         }
 
@@ -1112,7 +1152,7 @@
                 audioToPlay.play().catch(e => {
                     console.error(`Azan audio play failed for ${prayerName}:`, e);
                     // Inform the user if autoplay was blocked
-                    showTemporaryMessage('Azan audio blocked by browser. Please interact with the page to enable audio.', true);
+                    showTemporaryMessage('Azan audio blocked by browser. Please interact with the page.', true);
                 });
             }
 
@@ -1163,7 +1203,6 @@
 
         // Add event listener for pagehide to pause all media when the user navigates away or closes the tab
         window.addEventListener('pagehide', () => {
-            quranAudioPlayer.pause();
             homeRadioAudioPlayer.pause();
             if (youtubePlayer && typeof youtubePlayer.pauseVideo === 'function') {
                 youtubePlayer.pauseVideo();
@@ -1171,6 +1210,8 @@
             // Also pause azan audio if it's playing
             azanFajrAudio.pause();
             azanOtherAudio.pause();
+            // Also pause Quran audio if it's playing
+            quranAudioPlayer.pause();
         });
 
     </script>
