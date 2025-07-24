@@ -38,7 +38,7 @@
     }
     </script>
 
-    <link rel="manifest" href="data:application/json;base64,eyJpY29ucyI6IFt7InNpemVzIjogIjgweDgwIiwgInR5cGUiOiAiaW1hZ2UvcG5nIiwgInNyYyI6ICJodHRwczovL2iuaWJiLmNvL3Y0NlA1RzFxL0FSVC1XT1JLUy04MC14LTgwLXB4LnBuZyJ9LCB7InNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAic3JjIjogImh0dHBzOi8vcGxhY2Vob2xkLmNvLzE5MngxOTIvMzc0MTUxL2ZmZmZmZj90ZXh0PUFwcCtJY29uIiwicHVycG9zZXMiOiAiYW55IG1hc2thYmFibGUifX0sIHsianoxZXMiOiAiNTEyeDUxMiIsICJ0eXBlIjogImltYWdlL3BuZyIsICJzcmMiOiAiaHR0cHM6Ly9wbGFjZWhvbGQuY28vNTEyeDUxMi8zNzQxMTEvZmZmZmZmP3RleHQ9QXBwK0ljb24iLCJwdXJwb3NlcyI6ICJhbnkgbWFza2FibGUifV0sImRlc2NyaXB0aW9uIjogIllvdXIgZGFpbHkgY29tcGFuaW9uIGZvciBSYW1hZGhhbiBhbmQgSXNsYW1pYyBwcmFjdGljZXMuIiwiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwibmFtZSI6ICJSYW1hZGhhbiBXb3JsZCBBcHAiLCJzaG9ydF9uYW1lIjogIlJhbWFkZGhhbkFwcCIsInN0YXJ0X3VybCI6ICIvUkFESU9SQU1BREhBTi9pbmRleC5odG1sIiwidGhlbWVfY29sb3IiOiAiIzA2QjZENEJDM0Q0IiwiYmFja2dyb3VuZF9jb2xvciI6ICIjMTExODI3Iiwib3JpZW50YXRpb24iOiAicG9ydHJhaXQtcHJpbWFyeSJ9">
+    <link rel="manifest" href="data:application/json;base64,eyJpY29ucyI6IFt7InNpemVzIjogIjgweDgwIiwgInR5cGUiOiAiaW1hZ2UvcG5nIiwgInNyYyI6ICJodHRwczovL2iuaWJiLmNvL3Y0NlA1RzFxL0FSVC1XT1JLUy04MC14LTgwLXB4LnBuZyJ9LCAie2Jm9lMiI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIiwgInNyYyI6ICJodHRwczovL3BsYWNlaG9sZC5jby8xOTJ4MTkyLzM3NDExMS9mZmZmZmY/dGV4dD1BcHAxIiwicHVycG9zZXMiOiAiYW55IG1hc2thYmFibGUifX0sIHsianoxZXMiOiAiNTEyeDUxMiIsICJ0eXBlIjogImltYWdlL3BuZyIsICJzcmMiOiAiaHR0cHM6Ly9wbGFjZWhvbGQuY28vNTEyeDUxMi8zNzQxMTEvZmZmZmZmP3RleHQ9QXBwIiwicHVycG9zZXMiOiAiYW55IG1hc2thYmFibGUifX0sImRlc2NyaXB0aW9uIjogIllvdXIgZGFpbHkgY29tcGFuaW9uIGZvciBSYW1hZGhhbiBhbmQgSXNsYW1pYyBwcmFjdGljZXMuIiwiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwibmFtZSI6ICJSYW1hZGhhbiBXb3JsZCBBcHAiLCJzaG9ydF9uYW1lIjogIlJhbWFkZGhhbkFwcCIsInN0YXJ0X3VybCI6ICIvUkFESU9SQU1BREhBTi9pbmRleC5odG1sIiwidGhlbWVfY29sb3IiOiAiIzA2QjZENEJDM0Q0IiwiYmFja2dyb3VuZF9jb2xvciI6ICIjMTExODI3Iiwib3JpZW50YXRpb24iOiAicG9ydHJhaXQtcHJpbWFyeSJ9">
 
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -639,6 +639,19 @@
         async function initializeApp() {
             loadSettings();
             
+            // Request notification permission immediately on app load
+            if (!("Notification" in window)) {
+                console.log("This browser does not support desktop notification");
+            } else if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+                try {
+                    const permission = await Notification.requestPermission();
+                    console.log("Notification permission:", permission);
+                } catch (error) {
+                    console.error("Error requesting notification permission:", error);
+                }
+            }
+
+
             // Get user location automatically
             getLocation(async (loc) => {
                 userCoords.latitude = loc.latitude;
@@ -766,7 +779,7 @@
                     // Update Qibla angle
                     if (data.data.meta && typeof data.data.meta.qibla !== 'undefined') { 
                         qiblaAngle = data.data.meta.qibla;
-                        qiblaDirectionEl.textContent = `Qibla is at ${qiblaAngle.toFixed(2)}° from North. Rotate your device until the blue line points upwards.`;
+                        qiblaDirectionEl.textContent = `Qibla is at ${qiblaAngle.toFixed(2)}° from North. Rotate your device to align with Qibla.`;
                     } else {
                         // If not from prayer times API, try fetching from dedicated Qibla API
                         await getQiblaDirection(latitude, longitude);
@@ -794,12 +807,12 @@
                 const qiblaApiUrl = `https://api.aladhan.com/v1/qibla/${latitude}/${longitude}`;
                 const response = await fetch(qiblaApiUrl);
                 if (!response.ok) {
-                    throw new Error(`Qibla API request failed with status ${response.status}`);
+                    throw new Error(`Qibla API request failed with status ${res.status}`);
                 }
                 const data = await response.json();
                 if (data.code === 200 && data.data && typeof data.data.direction !== 'undefined') {
                     qiblaAngle = data.data.direction;
-                    qiblaDirectionEl.textContent = `Qibla is at ${qiblaAngle.toFixed(2)}° from North. Rotate your device until the blue line points upwards.`;
+                    qiblaDirectionEl.textContent = `Qibla is at ${qiblaAngle.toFixed(2)}° from North. Rotate your device to align with Qibla.`;
                 } else {
                     qiblaAngle = null;
                     console.warn("Qibla direction not found in API response from dedicated Qibla API.");
@@ -825,14 +838,29 @@
             if (countdownInterval) clearInterval(countdownInterval);
             countdownInterval = setInterval(() => {
                 const now = new Date();
-                const nextPrayer = findNextPrayer(now, timings);
+                const prayerOrder = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+                let nextPrayer = null;
+                let nextPrayerTime = null;
+
+                for (const prayerName of prayerOrder) {
+                    if (timings[prayerName]) {
+                        const timeParts = timings[prayerName].split(':');
+                        const prayerDate = new Date();
+                        prayerDate.setHours(parseInt(timeParts[0], 10), parseInt(timeParts[1], 10), 0, 0);
+
+                        if (prayerDate > now) {
+                            nextPrayer = { name: prayerName, time: timings[prayerName] };
+                            nextPrayerTime = prayerDate;
+                            break;
+                        }
+                    }
+                }
 
                 document.querySelectorAll('.prayer-time').forEach(el => el.classList.remove('active'));
 
                 if (nextPrayer) {
                     nextPrayerNameEl.textContent = nextPrayer.name;
-                    const prayerTime = new Date(now.toDateString() + ' ' + nextPrayer.time);
-                    const diff = prayerTime.getTime() - now.getTime();
+                    const diff = nextPrayerTime.getTime() - now.getTime();
                     
                     const nextPrayerElement = document.getElementById(`salah-${nextPrayer.name.toLowerCase()}`);
                     if (nextPrayerElement) {
@@ -863,16 +891,14 @@
                 } else {
                     // If all prayers for today have passed, show countdown to Fajr tomorrow
                     nextPrayerNameEl.textContent = 'Fajr (Tomorrow)';
-                    const fajrTimeToday = timings['Fajr'] ? new Date(now.toDateString() + ' ' + timings['Fajr']) : null;
-                    let fajrTimeTomorrow = null;
+                    const fajrTimeToday = timings['Fajr'] ? timings['Fajr'] : null;
+                    let fajrTimeTomorrow = new Date(now);
+                    fajrTimeTomorrow.setDate(fajrTimeTomorrow.getDate() + 1); // Set to tomorrow
 
                     if (fajrTimeToday) {
-                        fajrTimeTomorrow = new Date(fajrTimeToday);
-                        fajrTimeTomorrow.setDate(fajrTimeTomorrow.getDate() + 1); // Set to tomorrow's Fajr
+                        const timeParts = fajrTimeToday.split(':');
+                        fajrTimeTomorrow.setHours(parseInt(timeParts[0], 10), parseInt(timeParts[1], 10), 0, 0);
                     } else {
-                        // Fallback if Fajr time is not available for some reason
-                        fajrTimeTomorrow = new Date(now);
-                        fajrTimeTomorrow.setDate(fajrTimeTomorrow.getDate() + 1);
                         fajrTimeTomorrow.setHours(5, 0, 0, 0); // Default to 5 AM tomorrow
                     }
 
@@ -883,17 +909,6 @@
                     countdownTimerEl.textContent = `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
                 }
             }, 1000);
-        }
-
-        function findNextPrayer(now, timings) {
-            const prayerOrder = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-            for (const prayerName of prayerOrder) {
-                if (timings[prayerName]) {
-                    const prayerTime = new Date(now.toDateString() + ' ' + timings[prayerName]);
-                    if (prayerTime > now) return { name: prayerName, time: timings[prayerName] };
-                }
-            }
-            return null;
         }
 
         // --- UI & View Management ---
@@ -964,7 +979,7 @@
             }
 
             // Update initial Qibla direction text
-            qiblaDirectionEl.textContent = `Qibla Direction: ${qiblaAngle.toFixed(2)}° from North. Rotate your device until the blue line points upwards.`;
+            qiblaDirectionEl.textContent = `Qibla Direction: ${qiblaAngle.toFixed(2)}° from North. Rotate your device to align with Qibla.`;
 
             if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') {
                 DeviceOrientationEvent.requestPermission()
@@ -1113,17 +1128,17 @@
                 currentPlayingQuranElement.querySelector('.play-icon').classList.remove('hidden');
                 currentPlayingQuranElement.querySelector('.pause-icon').classList.add('hidden');
             }
-            if (currentSurahIndex !== -1 && allSurahs[currentSurahIndex]) { // Changed quranChapters to allSurahs
-                saveLastListenedAudio(allSurahs[currentSurahIndex].id, 0); // Changed quranChapters to allSurahs
+            if (currentSurahIndex !== -1 && allSurahs[currentSurahIndex]) { 
+                saveLastListenedAudio(allSurahs[currentSurahIndex].id, 0); 
             }
 
-            if (allSurahs.length > 0 && currentSurahIndex !== -1) { // Changed quranChapters to allSurahs
+            if (allSurahs.length > 0 && currentSurahIndex !== -1) { 
                 let nextIndex = currentSurahIndex + 1;
-                if (nextIndex >= allSurahs.length) { // Changed quranChapters to allSurahs
+                if (nextIndex >= allSurahs.length) { 
                     nextIndex = 0; 
                 }
                 
-                const nextSurah = allSurahs[nextIndex]; // Changed quranChapters to allSurahs
+                const nextSurah = allSurahs[nextIndex]; 
                 const nextSurahElement = document.querySelector(`#quran-surah-list div[onclick*="playSurah(${nextSurah.id}"]`);
                 
                 if (nextSurah && nextSurahElement) {
@@ -1142,8 +1157,8 @@
         };
 
         quranAudioPlayer.onpause = function() {
-            if (currentSurahIndex !== -1 && allSurahs[currentSurahIndex]) { // Changed quranChapters to allSurahs
-                saveLastListenedAudio(allSurahs[currentSurahIndex].id, quranAudioPlayer.currentTime); // Changed quranChapters to allSurahs
+            if (currentSurahIndex !== -1 && allSurahs[currentSurahIndex]) { 
+                saveLastListenedAudio(allSurahs[currentSurahIndex].id, quranAudioPlayer.currentTime); 
             }
         };
 
@@ -1157,9 +1172,9 @@
             const saved = localStorage.getItem(LAST_LISTENED_KEY);
             if (saved) {
                 const { surahId, currentTime } = JSON.parse(saved);
-                if (allSurahs.length === 0) { // Changed quranChapters to allSurahs
+                if (allSurahs.length === 0) { 
                     populateQuranList().then(() => {
-                        const surah = allSurahs.find(s => s.id === surahId); // Changed quranChapters to allSurahs
+                        const surah = allSurahs.find(s => s.id === surahId); 
                         if (surah) {
                             // Logic for resuming audio on load can be placed here if needed.
                         }
@@ -1167,7 +1182,7 @@
                         console.error("Error populating quran list for last listened audio on load:", e);
                     });
                 } else {
-                    const surah = allSurahs.find(s => s.id === surahId); // Changed quranChapters to allSurahs
+                    const surah = allSurahs.find(s => s.id === surahId); 
                     if (surah) {
                         // Logic for resuming audio on load can be placed here if needed.
                     }
@@ -1179,8 +1194,8 @@
             const saved = localStorage.getItem(LAST_LISTENED_KEY);
             if (saved) {
                 const { surahId, currentTime } = JSON.parse(saved);
-                const surah = allSurahs.find(s => s.id === surahId); // Changed quranChapters to allSurahs
-                const index = allSurahs.findIndex(s => s.id === surahId); // Changed quranChapters to allSurahs
+                const surah = allSurahs.find(s => s.id === surahId); 
+                const index = allSurahs.findIndex(s => s.id === surahId); 
                 if (surah && index !== -1) {
                     const surahElement = document.querySelector(`#quran-surah-list div[onclick*="playSurah(${surah.id}"]`);
                     
@@ -1370,7 +1385,6 @@
             }
         }
 
-        // Modified handleAzan to respect settings and ignore Sunrise audio
         function handleAzan(prayerName, isSunrise = false) {
             if (settings.azanNotification === 'silent') return;
 
@@ -1379,14 +1393,32 @@
                 if (Notification.permission === "granted") {
                     new Notification(`It's ${prayerName} time!`);
                 } else if (Notification.permission !== "denied") {
+                    // This scenario should be rare now since we request permission on load
                     Notification.requestPermission().then(permission => {
                         if (permission === "granted") {
                             new Notification(`It's ${prayerName} time!`);
                         }
                     });
                 }
+
+                // Attempt to play Azan audio
+                const azanAudio = (prayerName === 'Fajr') ? azanFajrAudio : azanOtherAudio;
+                azanAudio.play().then(() => {
+                    console.log(`${prayerName} Azan audio playing.`);
+                    azanPlayFailedMessage.classList.remove('show'); // Hide any previous error message
+                    azanPlayFailedMessage.classList.add('hidden');
+                }).catch(e => {
+                    console.error(`Failed to play ${prayerName} Azan audio:`, e);
+                    // Show message if audio playback fails due to autoplay policy
+                    azanPlayFailedMessage.textContent = `Azan for ${prayerName} could not play automatically. Please interact with the page or check browser autoplay settings.`;
+                    azanPlayFailedMessage.classList.remove('hidden');
+                    azanPlayFailedMessage.classList.add('show');
+                    setTimeout(() => {
+                        azanPlayFailedMessage.classList.remove('show');
+                        azanPlayFailedMessage.classList.add('hidden');
+                    }, 8000); // Display for 8 seconds
+                });
             }
-            // Azan audio will NOT play automatically here. It can only be played via testAzanSound().
         }
 
         // Function to test Azan sound (user-initiated)
