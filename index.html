@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ramadhan World App</title>
-    <!-- SEO Meta Tags -->
     <meta name="title" content="Radio Ramadhan | Live Islamic Radio for Ramadan">
     <meta name="description" content="Listen to 24/7 Islamic radio during Ramadan. Featuring Quran recitations, naats, duas, Islamic talks, and live Ramadhan transmissions.">
     <meta name="keywords" content="Ramadan Radio, Islamic Radio, Live Quran, Islamic Nasheed, Ramadhan, Online Islamic Audio, Muslim Radio, RadioRamadhan">
@@ -13,14 +12,12 @@
     <meta name="author" content="RamadhanWorld Team">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Open Graph Tags for Social Sharing -->
     <meta property="og:title" content="Radio Ramadhan | Live Islamic Radio for Ramadan">
     <meta property="og:description" content="24/7 Islamic audio stream with Quran, nasheeds, and Ramadan talks.">
     <meta property="og:image" content="https://i.ibb.co/v46P5G1q/ART-WORKS-80-x-80-px.png">
     <meta property="og:url" content="https://ramadhanworld.github.io/RADIORAMADHAN/">
     <meta property="og:type" content="website">
 
-    <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -41,12 +38,8 @@
     }
     </script>
 
-    <!-- PWA Manifest Link - Embedded as Data URI for self-contained HTML for sandboxed environments -->
-    <!-- For a live deployment over HTTPS, this should be a separate file (e.g., <link rel="manifest" href="/manifest.json">) -->
-    <link rel="manifest" href="data:application/json;base64,eyJpY29ucyI6IFt7InNpemVzIjogIjgweDgwIiwgInR5cGUiOiAiaW1hZ2UvcG5nIiwgInNyYyI6ICJodHRwczovL2iuaWJiLmNvL3Y0NlA1RzFxL0FSVC1XT1JLUy04MC14LTgwLXB4LnBuZyJ9LCB7InNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAic3JjIjogImh0dHBzOi8vcGxhY2Vob2xkLmNvLzE5MngxOTIvMzc0MTUxL2ZmZmZmZj90ZXh0PUFwcCtJY29uIiwicHVycG9zZXMiOiAiYW55IG1hc2thYmxlIn0sIHsns2l6ZXMiOiAiNTEyeDUxMiIsICJ0eXBlIjogImltYWdlL3BuZyIsICJzcmMiOiAiaHR0cHM6Ly9wbGFjZWhvbGQuY28vNTEyeDUxMi8zNzQ1MTEvZmZmZmZmP3RleHQ9QXBwK0ljb24iLCJwdXJwb3NlcyI6ICJhbnkgbWFza2FibGUifV0sImRlc2NyaXB0aW9uIjogIllvdXIgZGFpbHkgY29tcGFuaW9uIGZvciBSYW1hZGhhbiBhbmQgSXNsYW1pYyBwcmFjdGljZXMuIiwiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwibmFtZSI6ICJSYW1hZGhhbiBXb3JsZCBBcHAiLCJzaG9ydF9uYW1lIjogIlJhbWFkZGhhbkFwcCIsInN0YXJ0X3VybCI6ICIvUkFESU9SQU1BREhBTi9pbmRleC5odG1sIiwidGhlbWVfY29sb3IiOiAiIzA2QjZENEJDM0Q0IiwiYmFja2dyb3VuZF9jb2xvciI6ICIjMTExODI3Iiwib3JpZW50YXRpb24iOiAicG9ydHJhaXQtcHJpbWFyeSJ9">
+    <link rel="manifest" href="data:application/json;base64,eyJpY29ucyI6IFt7InNpemVzIjogIjgweDgwIiwgInR5cGUiOiAiaW1hZ2UvcG5nIiwgInNyYyI6ICJodHRwczovL2iuaWJiLmNvL3Y0NlA1RzFxL0FSVC1XT1JLUy04MC14LTgwLXB4LnBuZyJ9LCB7InNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAic3JjIjogImh0dHBzOi8vcGxhY2Vob2xkLmNvLzE5MngxOTIvMzc0MTUxL2ZmZmZmZj90ZXh0PUFwcCtJY29uIiwicHVycG9zZXMiOiAiYW55IG1hc2thYmFibGUifX0sIHsianoxZXMiOiAiNTEyeDUxMiIsICJ0eXBlIjogImltYWdlL3BuZyIsICJzcmMiOiAiaHR0cHM6Ly9wbGFjZWhvbGQuY28vNTEyeDUxMi8zNzQxMTEvZmZmZmZmP3RleHQ9QXBwK0ljb24iLCJwdXJwb3NlcyI6ICJhbnkgbWFza2FibGUifV0sImRlc2NyaXB0aW9uIjogIllvdXIgZGFpbHkgY29tcGFuaW9uIGZvciBSYW1hZGhhbiBhbmQgSXNsYW1pYyBwcmFjdGljZXMuIiwiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwibmFtZSI6ICJSYW1hZGhhbiBXb3JsZCBBcHAiLCJzaG9ydF9uYW1lIjogIlJhbWFkZGhhbkFwcCIsInN0YXJ0X3VybCI6ICIvUkFESU9SQU1BREhBTi9pbmRleC5odG1sIiwidGhlbWVfY29sb3IiOiAiIzA2QjZENEJDM0Q0IiwiYmFja2dyb3VuZF9jb2xvciI6ICIjMTExODI3Iiwib3JpZW50YXRpb24iOiAicG9ydHJhaXQtcHJpbWFyeSJ9">
 
-    <!-- PWA Full-Screen Meta Tags -->
-    <!-- These meta tags help the app behave like a native app when added to the home screen -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -394,16 +387,13 @@
     </div>
 
     <div id="main-content" class="min-h-screen container mx-auto p-4 sm:p-6 lg:p-8 opacity-0 transition-opacity duration-1000">
-        <!-- Header Section -->
         <header class="text-center mb-6">
-            <!-- Logo with Madina photo and smaller size -->
             <img id="app-logo" src="https://i.ibb.co/v46P5G1q/ART-WORKS-80-x-80-px.png" alt="Madina Photo Logo" class="w-[80px] h-[80px] mx-auto mb-2 rounded-full shadow-lg object-cover" onerror="this.onerror=null;this.src='https://placehold.co/80x80/374151/ffffff?text=Logo';">
             <h1 class="text-4xl sm:text-5xl font-extrabold text-cyan-400">Ramadhan World</h1>
             <p id="islamic-date" class="text-lg text-gray-300 mt-2">Loading Islamic Date...</p>
             <p id="location" class="text-md text-gray-400 mt-1">Please select your city.</p>
         </header>
 
-        <!-- Navigation -->
         <nav class="flex justify-center gap-2 mb-6 flex-wrap">
             <button onclick="showView('home')" class="nav-button active px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Home</button>
             <button onclick="showView('quran')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Quran</button> 
@@ -414,9 +404,7 @@
             <button onclick="showView('settings')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover:bg-cyan-500 transition">Settings</button>
         </nav>
 
-        <!-- Main Views -->
         <main>
-            <!-- Home View -->
             <div id="home-view">
                 <section id="countdown-section" class="mb-8">
                     <div class="card rounded-2xl p-6 max-w-2xl mx-auto text-center">
@@ -425,7 +413,6 @@
                     </div>
                 </section>
 
-                <!-- Radio Player on Home View -->
                 <section id="home-radio-section" class="mb-8">
                     <div class="card rounded-2xl p-6 max-w-2xl mx-auto text-center">
                         <button id="radio-play-pause-button" onclick="toggleRadioPlayback()" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg transition transform hover:scale-105 mb-4">
@@ -436,30 +423,24 @@
                             Your browser does not support the audio element.
                         </audio>
                         <p id="radio-status-message" class="text-sm text-gray-400 mt-2 hidden">
-                            <!-- Status messages will appear here -->
-                        </p>
+                            </p>
                     </div>
                 </section>
             </div>
 
-            <!-- Qibla View -->
             <div id="qibla-view" class="hidden text-center">
                 <div class="card rounded-2xl p-6 max-w-sm mx-auto">
                     <h2 class="text-2xl font-semibold mb-4">Qibla Compass</h2>
                     <div id="compass">
-                        <!-- Directional lines -->
                         <div class="direction-line vertical"></div>
                         <div class="direction-line horizontal"></div>
 
-                        <!-- Cardinal direction markers -->
                         <div class="direction-marker north">N</div>
                         <div class="direction-marker south">S</div>
                         <div class="direction-marker west">W</div>
                         <div class="direction-marker east">E</div>
                         
-                        <!-- Qibla Marker (the main rotating indicator) -->
                         <div id="qibla-marker" class="absolute w-full h-full flex items-center justify-center">
-                            <!-- Blue line for Qibla -->
                             <svg width="8" height="120" viewBox="0 0 8 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M4 0L4 120" stroke="#06B6D4" stroke-width="8"/>
                             </svg>
@@ -470,14 +451,12 @@
                 </div>
             </div>
 
-            <!-- Quran View (now for audio recitation) -->
             <div id="quran-view" class="hidden">
                  <div class="card rounded-2xl p-6 max-w-4xl mx-auto">
                     <h2 class="text-2xl font-semibold mb-4 text-center">Holy Quran Recitation</h2>
                     
                     <div id="quran-surah-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto pr-2">
-                        <!-- Surahs will be populated here -->
-                    </div>
+                        </div>
                     <div id="quran-player" class="mt-6 text-center hidden">
                         <h3 id="current-surah-name" class="text-xl font-bold mb-2 text-cyan-300"></h3>
                         <audio id="quran-audio-player" controls class="w-full rounded-lg"></audio>
@@ -485,7 +464,6 @@
                 </div>
             </div>
 
-            <!-- Salah View -->
             <div id="salah-view" class="hidden">
                  <div class="card rounded-2xl p-6 max-w-2xl mx-auto">
                     <h2 class="text-2xl font-semibold mb-4 text-center">Salah Times</h2>
@@ -502,7 +480,6 @@
                 </div>
             </div>
 
-            <!-- Naat View -->
             <div id="naat-view" class="hidden">
                 <div class="card rounded-2xl p-6 mx-auto text-center">
                     <h2 class="text-2xl font-semibold mb-4">Naat Collection</h2>
@@ -523,7 +500,6 @@
                 </div>
             </div>
 
-            <!-- Tasbeeh Counter View -->
             <div id="tasbeeh-view" class="hidden text-center">
                 <div class="card rounded-2xl p-6 max-w-sm mx-auto">
                     <h2 class="text-2xl font-semibold mb-4">Tasbeeh Counter</h2>
@@ -540,7 +516,6 @@
                 </div>
             </div>
 
-            <!-- Settings View -->
             <div id="settings-view" class="hidden">
                 <div class="card rounded-2xl p-6 max-w-lg mx-auto">
                     <h2 class="text-2xl font-semibold mb-4">Azan Notifications</h2>
@@ -553,11 +528,9 @@
                             <input type="radio" id="azan-silent" name="azan-notification" value="silent" class="mr-2">
                             <label for="azan-silent">Do not notify (show time only)</label>
                         </div>
-                        <!-- Test Azan button -->
                         <button onclick="testAzanSound()" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition">
                             Test Azan Sound
                         </button>
-                        <!-- "Install App" button - initially hidden, shown by JS if PWA is installable -->
                         <button id="install-app-button" class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition hidden">
                             <i class="fas fa-mobile-alt mr-2"></i> Install App
                         </button>
@@ -573,33 +546,17 @@
             </div>
         </main>
 
-        <!-- Footer -->
         <footer class="text-center mt-12 text-gray-500 text-sm">
             <p>Contact us: radioramadhanworld@gmail.com</p>
             <p>Powered by RAMADHAN WORLD PRODUCTION</p>
-            <!-- AdSense Code -->
-            <div class="flex justify-center mt-4 mb-4">
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8794459819365243"
-                        crossorigin="anonymous"></script>
-                <!-- ISLAMIC -->
-                <ins class="adsbygoogle"
-                    style="display:inline-block;width:320px;height:50px"
-                    data-ad-client="ca-pub-8794459819365243"
-                    data-ad-slot="9466135280"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
         </footer>
     </div>
     
-    <!-- Updated Azan audio sources -->
     <audio id="azan-fajr-audio" src="https://islamic-sound.com/wp-content/uploads/2022/10/azan-2.mp3" preload="auto"></audio>
     <audio id="azan-other-audio" src="https://islamic-sound.com/wp-content/uploads/2022/10/azan-2.mp3" preload="auto"></audio>
     <div id="settings-saved-message" class="settings-saved-message hidden">Settings Saved!</div>
     <div id="azan-play-failed-message" class="settings-saved-message hidden bg-red-500">Azan audio blocked by browser. Please interact with the page.</div>
 
-    <!-- YouTube IFrame Player API -->
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
