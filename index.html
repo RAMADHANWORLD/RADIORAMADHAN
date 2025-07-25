@@ -20,6 +20,11 @@
         .font-amiri {
             font-family: 'Amiri', serif;
         }
+        h1, h2, h3, h4 {
+            color: white;
+            font-weight: 700; /* Bolder font weight */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* More glowing text shadow */
+        }
         .card {
             background-color: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(12px);
@@ -27,16 +32,17 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
         .prayer-time.active {
-            background-color: rgba(57, 255, 20, 0.3); /* Neon Green shade */
+            background-color: rgba(50, 230, 0, 0.25); /* Softer Neon Green shade */
             border-left-width: 4px;
-            border-color: #39FF14; /* Neon Green */
+            border-color: #32e600; /* Softer Neon Green */
             transition: background-color 0.3s ease, border-color 0.3s ease;
         }
         .nav-button.active {
-            background-color: #39FF14; /* Neon Green */
-            color: #1f2937; /* Dark text for readability */
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+            background-color: #32e600; /* Softer Neon Green */
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 15px rgba(50, 230, 0, 0.5);
         }
         .video-container {
             position: relative;
@@ -81,12 +87,12 @@
             position: absolute;
             width: 3px;
             height: 128px;
-            background-color: #39FF14; /* Neon Green */
+            background-color: #32e600; /* Softer Neon Green */
             top: 0;
             left: 50%;
             transform-origin: bottom center;
             transition: transform 0.2s linear;
-            box-shadow: 0 0 10px rgba(57, 255, 20, 0.7); /* Neon Green Glow */
+            box-shadow: 0 0 10px rgba(50, 230, 0, 0.7); /* Softer Neon Green Glow */
             z-index: 5;
         }
         /* New Sections Styling */
@@ -102,11 +108,9 @@
         }
         .section-title {
             font-family: 'Cairo', sans-serif;
-            font-weight: 700;
             font-size: 1.875rem;
             text-align: center;
             margin-bottom: 1.5rem;
-            color: #39FF14; /* Neon Green */
         }
         #islamic-history-content p {
             font-size: 1.125rem;
@@ -114,9 +118,10 @@
             color: #d1d5db;
         }
         .action-btn {
-            background-color: #39FF14; /* Neon Green */
-            color: #1f2937; /* Dark text for readability */
-            font-weight: bold;
+            background-color: #32e600; /* Softer Neon Green */
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255,255,255,0.7);
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
             margin-top: 1rem;
@@ -126,13 +131,14 @@
         }
         .action-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 15px #39FF14; /* Neon Green Glow on Hover */
+            box-shadow: 0 0 15px #32e600; /* Softer Neon Green Glow on Hover */
         }
         .action-btn-small {
             background-color: #374151;
             color: white;
             font-size: 0.8rem;
             padding: 0.25rem 0.75rem;
+            text-shadow: none; /* remove glow from small utility buttons */
         }
         .calendar-grid {
             display: grid;
@@ -140,8 +146,8 @@
             gap: 1.25rem;
         }
         .calendar-item {
-            background-color: rgba(57, 255, 20, 0.1); /* Neon Green shade */
-            border: 1px solid rgba(57, 255, 20, 0.3); /* Neon Green shade */
+            background-color: rgba(50, 230, 0, 0.1); /* Softer Neon Green shade */
+            border: 1px solid rgba(50, 230, 0, 0.2); /* Softer Neon Green shade */
             border-radius: 0.75rem;
             padding: 1.25rem;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -155,9 +161,10 @@
         .calendar-date {
             font-family: 'Amiri', serif;
             font-size: 1.25rem;
+            color: white;
             font-weight: 700;
-            color: #1f2937; /* Dark text for readability */
-            background-color: #39FF14; /* Neon Green */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            background-color: #32e600; /* Softer Neon Green */
             padding: 0.25rem 0.75rem;
             border-radius: 9999px;
             display: inline-block;
@@ -165,8 +172,6 @@
         }
         .calendar-event-name {
             font-size: 1.5rem;
-            font-weight: 600;
-            color: #adff2f; /* Lighter Neon Green shade */
             margin-bottom: 0.5rem;
         }
         .calendar-event-desc {
@@ -188,7 +193,7 @@
         }
         .inbox-item {
             background-color: rgba(255, 255, 255, 0.05);
-            border-left: 4px solid #39FF14; /* Neon Green */
+            border-left: 4px solid #32e600; /* Softer Neon Green */
             padding: 1rem;
             margin-bottom: 0.75rem;
             border-radius: 0 0.5rem 0.5rem 0;
@@ -200,10 +205,10 @@
             font-size: 0.8rem;
             color: #9ca3af;
         }
-        .text-neon { color: #39FF14; }
-        .border-neon { border-color: #39FF14; }
-        .bg-neon { background-color: #39FF14; color: #1f2937; font-weight: bold; }
-        .hover-bg-neon:hover { background-color: #39FF14; color: #1f2937; font-weight: bold; box-shadow: 0 0 15px rgba(57, 255, 20, 0.5); }
+        .text-neon { color: #32e600; }
+        .border-neon { border-color: #32e600; }
+        .bg-neon { background-color: #32e600; color: white; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.7); }
+        .hover-bg-neon:hover { background-color: #32e600; color: white; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.7); box-shadow: 0 0 15px rgba(50, 230, 0, 0.5); }
     </style>
 </head>
 <body class="bg-gray-900 text-white">
@@ -218,7 +223,7 @@
         <!-- Header Section -->
         <header class="text-center mb-6">
             <img id="app-logo" src="https://i.ibb.co/Zp0bgjsS/ART-WORKS-1.png" alt="Ramadhan World Logo" class="w-[200px] h-[200px] mx-auto mb-4 rounded-full shadow-lg object-contain">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-neon">Ramadhan World</h1>
+            <h1 class="text-4xl sm:text-5xl">Ramadhan World</h1>
             <p id="islamic-date" class="text-lg text-gray-300 mt-2">Loading Islamic Date...</p>
             <p id="location" class="text-md text-gray-400 mt-1">Fetching location...</p>
         </header>
@@ -242,14 +247,14 @@
             <div id="home-view">
                 <section id="countdown-section" class="mb-8">
                     <div class="card rounded-2xl p-6 max-w-2xl mx-auto text-center">
-                        <h2 class="text-2xl font-semibold mb-2">Time until <span id="next-prayer-name" class="text-neon">...</span></h2>
+                        <h2 class="text-2xl mb-2">Time until <span id="next-prayer-name" class="text-neon">...</span></h2>
                         <div id="countdown-timer" class="text-5xl font-extrabold text-neon tracking-wider">00:00:00</div>
                     </div>
                 </section>
                 <section id="home-radio-section" class="mb-8">
                     <div class="card rounded-2xl p-6 max-w-2xl mx-auto text-center">
-                        <button onclick="playRamadhanWorldRadio()" class="bg-neon text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg transition transform hover:scale-105">
-                            Play Ramadhan World Radio
+                        <button onclick="playRamadhanWorldRadio()" class="bg-neon py-3 px-6 rounded-full text-lg shadow-lg transition transform hover:scale-105">
+                            Press To Play Live Radio
                         </button>
                         <div id="home-radio-player" class="mt-6 text-center">
                             <div id="home-radio-loading-indicator" class="hidden">
@@ -301,7 +306,7 @@
             <!-- Qibla View -->
             <div id="qibla-view" class="hidden text-center">
                  <div class="card rounded-2xl p-6 max-w-sm mx-auto">
-                    <h2 class="text-2xl font-semibold mb-4">Qibla Compass</h2>
+                    <h2 class="text-2xl mb-4">Qibla Compass</h2>
                     <div id="compass">
                         <div class="direction north">N</div>
                         <div class="direction south">S</div>
@@ -310,7 +315,7 @@
                         <div id="qibla-line"></div>
                     </div>
                     <p id="qibla-direction" class="mt-4 text-lg text-gray-300">For accurate results, hold your device flat, away from any metals.</p>
-                    <p class="text-lg text-yellow-400 mt-4 font-bold">THIS FEATURE IS COMING SOON</p>
+                    <p class="text-lg text-yellow-400 mt-4">THIS FEATURE IS COMING SOON</p>
                     <p class="text-sm text-gray-400 mt-2">(Accuracy depends on your device's hardware and browser support)</p>
                 </div>
             </div>
@@ -318,14 +323,14 @@
             <!-- Listen Quran View -->
             <div id="listen-quran-view" class="hidden">
                  <div class="card rounded-2xl p-6 max-w-4xl mx-auto">
-                    <h2 class="text-2xl font-semibold mb-4 text-center">Holy Quran Recitation</h2>
+                    <h2 class="text-2xl mb-4 text-center">Holy Quran Recitation</h2>
                     <div id="quran-loading-indicator" class="text-center py-8 hidden">
                         <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-neon mx-auto"></div>
                         <p class="mt-4 text-lg">Loading Surahs...</p>
                     </div>
                     <div id="quran-surah-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto pr-2"></div>
                     <div id="quran-player" class="mt-6 text-center hidden">
-                        <h3 id="current-surah-name" class="text-xl font-bold mb-2 text-neon"></h3>
+                        <h3 id="current-surah-name" class="text-xl mb-2 text-neon"></h3>
                         <audio id="quran-audio-player" controls class="w-full rounded-lg"></audio>
                     </div>
                 </div>
@@ -334,7 +339,7 @@
             <!-- Salah View -->
             <div id="salah-view" class="hidden">
                 <div class="card rounded-2xl p-6 max-w-2xl mx-auto">
-                    <h2 class="text-2xl font-semibold mb-4 text-center">Today's Times</h2>
+                    <h2 class="text-2xl mb-4 text-center">Today's Times</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div id="salah-fajr" class="prayer-time card rounded-xl p-4 flex justify-between items-center"><span class="font-semibold text-lg">Fajr</span><span class="text-xl font-mono">--:--</span></div>
                         <div id="salah-sunrise" class="prayer-time card rounded-xl p-4 flex justify-between items-center"><span class="font-semibold text-lg">Sunrise</span><span class="text-xl font-mono">--:--</span></div>
@@ -345,7 +350,7 @@
                     </div>
                     <hr class="border-gray-600 my-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                        <div id="salah-sehri" class="card rounded-xl p-4 flex justify-between items-center border-l-4" style="background-color: rgba(57, 255, 20, 0.2); border-color: #39FF14;">
+                        <div id="salah-sehri" class="card rounded-xl p-4 flex justify-between items-center border-l-4" style="background-color: rgba(50, 230, 0, 0.2); border-color: #32e600;">
                             <span class="font-semibold text-lg">Sehri End</span>
                             <span class="text-xl font-mono">--:--</span>
                         </div>
@@ -360,9 +365,9 @@
             <!-- Tasbeeh View -->
             <div id="tasbeeh-view" class="hidden">
                  <div class="card rounded-2xl p-6 max-w-sm mx-auto text-center">
-                    <h2 class="text-2xl font-semibold mb-4">Tasbeeh Counter</h2>
+                    <h2 class="text-2xl mb-4">Tasbeeh Counter</h2>
                     <div id="tasbeeh-counter-display" class="font-mono text-7xl font-bold text-neon mb-4">0</div>
-                    <button onclick="incrementTasbeeh()" class="w-48 h-48 rounded-full bg-neon text-gray-900 text-5xl flex items-center justify-center mx-auto shadow-lg transform transition hover:scale-105 active:scale-95" style="box-shadow: 0 0 20px rgba(57, 255, 20, 0.6);"><i class="fas fa-plus"></i></button>
+                    <button onclick="incrementTasbeeh()" class="w-48 h-48 rounded-full bg-neon text-white text-5xl flex items-center justify-center mx-auto shadow-lg transform transition hover:scale-105 active:scale-95" style="box-shadow: 0 0 20px rgba(50, 230, 0, 0.6);"><i class="fas fa-plus"></i></button>
                     <button onclick="resetTasbeeh()" class="mt-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition">Reset</button>
                 </div>
             </div>
@@ -370,13 +375,13 @@
             <!-- Naat View -->
             <div id="naat-view" class="hidden">
                 <div class="card rounded-2xl p-6 mx-auto text-center">
-                    <h2 class="text-2xl font-semibold mb-4">Naat Collection</h2>
+                    <h2 class="text-2xl mb-4">Naat Collection</h2>
                     <div class="video-container mb-4">
                         <div id="youtube-player"></div>
                     </div>
                     <div class="flex justify-center gap-4 flex-wrap">
                         <button onclick="previousVideo()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full text-lg"><i class="fas fa-backward"></i></button>
-                        <button id="tv-play-button" onclick="playVideo()" class="bg-neon font-bold py-2 px-4 rounded-full text-lg"><i class="fas fa-play"></i></button>
+                        <button id="tv-play-button" onclick="playVideo()" class="bg-neon py-2 px-4 rounded-full text-lg"><i class="fas fa-play"></i></button>
                         <button id="tv-pause-button" onclick="pauseVideo()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full text-lg hidden"><i class="fas fa-pause"></i></button>
                         <button onclick="nextVideo()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full text-lg"><i class="fas fa-forward"></i></button>
                     </div>
@@ -386,19 +391,19 @@
             <!-- Settings View -->
             <div id="settings-view" class="hidden">
                 <div class="card rounded-2xl p-6 max-w-lg mx-auto">
-                    <h2 class="text-2xl font-semibold mb-4">Settings</h2>
+                    <h2 class="text-2xl mb-4">Settings</h2>
                     <div class="space-y-4">
                         <div>
-                            <h3 class="text-lg font-semibold text-neon mb-2">Master Notification Control</h3>
+                            <h3 class="text-lg mb-2">Master Notification Control</h3>
                             <button id="settings-notification-toggle" onclick="toggleMasterNotifications()" class="w-full py-2 px-4 rounded-lg transition-colors">Toggle Notifications</button>
                         </div>
                         <hr class="border-gray-600">
                         <div>
-                            <h3 class="text-lg font-semibold text-neon mb-2">Manage Inbox</h3>
+                            <h3 class="text-lg mb-2">Manage Inbox</h3>
                              <button onclick="clearInboxHistory()" class="w-full py-2 px-4 rounded-lg bg-red-600 hover:bg-red-700 transition-colors">Clear Inbox History</button>
                         </div>
                     </div>
-                    <button onclick="saveSettings()" class="mt-6 w-full bg-neon font-bold py-2 px-4 rounded-lg transition">Save Settings</button>
+                    <button onclick="saveSettings()" class="mt-6 w-full bg-neon py-2 px-4 rounded-lg transition">Save Settings</button>
                 </div>
             </div>
         </main>
