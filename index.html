@@ -110,15 +110,18 @@
             text-align: center;
             margin-bottom: 1.5rem;
         }
-        #hadithContent {
+        #history-date {
             font-size: 1.125rem;
-            line-height: 1.7;
-            color: #d1d5db;
             margin-bottom: 1rem;
+            color: #d1d5db;
         }
-        #hadithRef {
-            font-size: 0.9rem;
-            color: #9ca3af;
+        #history-content {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: #d1d5db;
+        }
+        #history-loading {
+            color: #32e600;
         }
 
         .action-btn:hover {
@@ -251,13 +254,13 @@
                 <section id="countdown-section" class="mb-8">
                     <div class="card rounded-2xl p-6 max-w-2xl mx-auto text-center">
                         <h2 class="text-2xl mb-2">Time until <span id="next-prayer-name" class="text-neon">...</span></h2>
-                        <div id="countdown-timer" class="text-7xl text-neon tracking-wider">00:00:00</div>
+                        <div id="countdown-timer" class="text-5xl text-neon tracking-wider">00:00:00</div>
                     </div>
                 </section>
                 
                 <section id="home-radio-section" class="mb-8">
                     <div class="card rounded-2xl p-6 max-w-2xl mx-auto text-center">
-                        <h2 class="section-title" style="font-size: 1.5rem; margin-bottom: 1rem;">PRESS TO PLAY LIVE RADIO 📻</h2>
+                        <h2 class="section-title" style="font-size: 1.5rem; margin-bottom: 1rem;">📻 RAMADHAN RADIO LIVE</h2>
                         <audio id="radioPlayer" controls controlslist="nodownload" preload="none">
                             <source src="http://hydra.shoutca.st:8550/;" type="audio/mpeg" />
                             Your browser does not support the audio element.
@@ -265,12 +268,13 @@
                     </div>
                 </section>
 
-                <!-- Today's Hadith Section -->
-                <section id="hadith-section" class="mb-8">
-                    <div class="section-card text-center">
-                        <h2 class="section-title">📖 Hadith for Today</h2>
-                        <div id="hadithContent" class="hadith">Loading hadith...</div>
-                        <div id="hadithRef" class="ref"></div>
+                <!-- Today in Islamic History Section -->
+                <section id="islamic-history-section" class="mb-8">
+                    <div class="section-card">
+                        <h2 class="section-title">📜 Islamic History of Today</h2>
+                        <div id="history-date" class="text-center">Loading Hijri date...</div>
+                        <div id="history-loading" class="text-center">Searching Wikipedia for events...</div>
+                        <div id="history-content" class="event"></div>
                     </div>
                 </section>
             </div>
@@ -284,7 +288,9 @@
                             <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-neon mx-auto"></div>
                             <p class="mt-4 text-lg">Fetching live dates...</p>
                         </div>
-                        <div id="islamic-calendar-grid" class="calendar-grid"></div>
+                        <div id="islamic-calendar-grid" class="calendar-grid">
+                            <!-- Events will be populated here by JavaScript -->
+                        </div>
                     </div>
                 </section>
             </div>
@@ -426,8 +432,9 @@
         const tvPlayButton = document.getElementById('tv-play-button');
         const tvPauseButton = document.getElementById('tv-pause-button');
         const tasbeehCounterDisplay = document.getElementById('tasbeeh-counter-display');
-        const hadithContentEl = document.getElementById('hadithContent');
-        const hadithRefEl = document.getElementById('hadithRef');
+        const historyDateEl = document.getElementById('history-date');
+        const historyLoadingEl = document.getElementById('history-loading');
+        const historyContentEl = document.getElementById('history-content');
         const settingsNotificationToggle = document.getElementById('settings-notification-toggle');
         
         let tasbeehCount = 0;
@@ -478,7 +485,6 @@
             loadNotificationStatus();
             loadTasbeehCount();
             setupRadioPlayer();
-            showHadithOfDay();
             await getUserLocation();
             hideLoading();
         }
@@ -501,22 +507,33 @@
             audioUnlocked = true;
         }
         
-        function showHadithOfDay() {
-            const hadiths = [
-              { text: "Actions are judged by intentions.", ref: "Sahih al-Bukhari 1" },
-              { text: "The best among you are those who learn the Qur’an and teach it.", ref: "Sahih al-Bukhari 5027" },
-              { text: "Make things easy for the people, and do not make it difficult for them.", ref: "Sahih al-Bukhari 69" },
-              { text: "Whoever believes in Allah and the Last Day should speak good or remain silent.", ref: "Sahih al-Bukhari 6018" },
-              { text: "The strong man is not the one who can overpower others. Rather, the strong man is the one who controls himself when he gets angry.", ref: "Sahih al-Bukhari 6114" },
-              { text: "Allah does not look at your appearance or wealth but looks at your hearts and deeds.", ref: "Sahih Muslim 2564c" }
-            ];
+        async function fetchDailyIslamicHistory(day, month, year) {
+            historyLoadingEl.style.display = 'block';
+            historyContentEl.innerHTML = '';
+            
+            const hijriDisplay = `${day} ${month} ${year} AH`;
+            const hijriSearch = `${day} ${month}`;
+            historyDateEl.textContent = `📅 Islamic Date: ${hijriDisplay}`;
+            
+            const apiUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=extracts&exintro=true&explaintext=true&titles=${encodeURIComponent(hijriSearch)}`;
+            
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                const pages = data.query.pages;
+                const page = Object.values(pages)[0];
 
-            const date = new Date();
-            const index = (date.getUTCDate() + Math.floor(date.getUTCHours() / 12)) % hadiths.length;
-            const hadith = hadiths[index];
-
-            document.getElementById("hadithContent").innerText = `"${hadith.text}"`;
-            document.getElementById("hadithRef").innerText = `📚 ${hadith.ref}`;
+                if (page.extract) {
+                    historyContentEl.textContent = page.extract;
+                } else {
+                    historyContentEl.textContent = "No detailed Islamic history found on Wikipedia for today.";
+                }
+            } catch (error) {
+                historyContentEl.textContent = "Error loading Islamic history.";
+                console.error(error);
+            } finally {
+                historyLoadingEl.style.display = "none";
+            }
         }
         
         async function populateEventCalendar(hijriYear) {
@@ -619,6 +636,7 @@
             Object.keys(salahPrayerTimeElements).forEach(p => { if (salahPrayerTimeElements[p] && timings[p]) salahPrayerTimeElements[p].textContent = formatTime(timings[p]); });
             document.querySelector('#salah-sehri span:last-child').textContent = formatTime(subtractMinutes(timings.Fajr, 10));
             document.querySelector('#salah-iftar span:last-child').textContent = formatTime(subtractMinutes(timings.Maghrib, 2));
+            fetchDailyIslamicHistory(date.hijri.day, date.hijri.month.en, date.hijri.year);
         }
         
         function updateCountdown(timings) {
@@ -720,21 +738,30 @@
         }
 
         async function playSurah(surahId, surahName, element, index) {
+            if (isFetchingSurah) { return; }
+
             if (currentPlayingQuran.surahId === surahId) {
                 if (quranAudioPlayer.paused) { quranAudioPlayer.play(); } else { quranAudioPlayer.pause(); }
                 return;
             }
 
+            isFetchingSurah = true;
             if (currentPlayingQuran.element) {
                 resetQuranItemUI(currentPlayingQuran.element);
             }
             manageAudioPlayback('quran');
-            currentSurahName.textContent = `Loading ${surahName}...`;
+            currentSurahName.textContent = `Finding audio for ${surahName}...`;
             quranPlayer.classList.remove('hidden');
 
             try {
-                const paddedSurahId = String(surahId).padStart(3, '0');
-                const audioUrl = `https://download.quranicaudio.com/quran/abdul_basit_murattal/${paddedSurahId}.mp3`;
+                const response = await fetch(`https://api.quran.com/api/v4/chapter_recitations/${surahId}`);
+                if (!response.ok) { throw new Error(`Could not get data for ${surahName}.`); }
+                
+                const data = await response.json();
+                if (!data.audio_files || data.audio_files.length === 0) { throw new Error(`Audio for ${surahName} is not available.`); }
+
+                const audioUrl = data.audio_files[0].audio_url;
+                if (!audioUrl) { throw new Error(`No audio URL found for ${surahName}.`); }
                 
                 quranAudioPlayer.src = audioUrl;
                 quranAudioPlayer.volume = 1.0;
@@ -745,9 +772,11 @@
                 currentPlayingQuran = { element, surahId, index };
             } catch (error) {
                 console.error("Error in playSurah:", error);
-                currentSurahName.textContent = `Could not play ${surahName}`; 
+                currentSurahName.textContent = error.message; 
                 resetQuranItemUI(element);
                 currentPlayingQuran = { element: null, surahId: null, index: -1 };
+            } finally {
+                isFetchingSurah = false; 
             }
         }
 
@@ -839,7 +868,13 @@
         
         function loadSettings() {
              const s = localStorage.getItem('ramadanAppSettings'); if (s) settings = JSON.parse(s);
+             // Since settings page is simple now, no UI needs updating on load except notifications
              loadNotificationStatus();
+        }
+
+        function saveSettings() {
+            // Placeholder for if more settings are added. Currently only notification status is saved.
+            showTemporaryMessage('Settings Saved!');
         }
         
         function showTemporaryMessage(message, isError = false) {
