@@ -251,13 +251,13 @@
                 <section id="countdown-section" class="mb-8">
                     <div class="card rounded-2xl p-6 max-w-2xl mx-auto text-center">
                         <h2 class="text-2xl mb-2">Time until <span id="next-prayer-name" class="text-neon">...</span></h2>
-                        <div id="countdown-timer" class="text-5xl text-neon tracking-wider">00:00:00</div>
+                        <div id="countdown-timer" class="text-7xl text-neon tracking-wider">00:00:00</div>
                     </div>
                 </section>
                 
                 <section id="home-radio-section" class="mb-8">
                     <div class="card rounded-2xl p-6 max-w-2xl mx-auto text-center">
-                        <h2 class="section-title" style="font-size: 1.5rem; margin-bottom: 1rem;">📻 PRESS TO PLAY LIVE RADIO RAMADHAN</h2>
+                        <h2 class="section-title" style="font-size: 1.5rem; margin-bottom: 1rem;">PRESS TO PLAY LIVE RADIO 📻</h2>
                         <audio id="radioPlayer" controls controlslist="nodownload" preload="none">
                             <source src="http://hydra.shoutca.st:8550/;" type="audio/mpeg" />
                             Your browser does not support the audio element.
@@ -733,7 +733,6 @@
             quranPlayer.classList.remove('hidden');
 
             try {
-                // Use a reliable, complete source for all surahs
                 const paddedSurahId = String(surahId).padStart(3, '0');
                 const audioUrl = `https://download.quranicaudio.com/quran/abdul_basit_murattal/${paddedSurahId}.mp3`;
                 
