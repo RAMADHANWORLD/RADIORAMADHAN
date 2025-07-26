@@ -2,10 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Ramadhan World App - Prayer Times, Qibla, Quran</title>
     <meta name="description" content="An all-in-one Islamic app featuring accurate prayer times, Sehri and Iftar times, Qibla compass, Quran recitation, a dynamic Islamic calendar, Naat collection, a Tasbeeh counter, and live streaming.">
     <meta name="keywords" content="islamic app, prayer times, qibla direction, quran online, ramadan 2025, sehri time, iftar time, islamic calendar, hijri date, naat, tasbeeh counter, ramadhan world, islamic history, salah times, listen quran, live stream">
+
+    <!-- iOS & Mobile Web App Specific Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Ramadhan World">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/Zp0bgjsS/ART-WORKS-1.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,7 +76,7 @@
             position: relative;
             width: 256px;
             height: 256px;
-            background-image: url('https://i.ibb.co/9gmjw2f/compass-face.png');
+            background-color: #1f2937; /* Replaced image with a background color */
             background-size: cover;
             background-position: center;
             border-radius: 9999px;
@@ -235,7 +241,6 @@
             <button onclick="showView('naat')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover-bg-neon transition">Naat</button>
             <button onclick="showView('qibla')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover-bg-neon transition">Qibla</button>
             <button onclick="showView('calendar')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover-bg-neon transition">Calendar</button>
-            <button onclick="showView('settings')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 hover-bg-neon transition">Settings</button>
         </nav>
 
         <!-- Main Views -->
@@ -245,7 +250,7 @@
                 <section id="countdown-section" class="mb-8">
                     <div class="card rounded-2xl p-6 max-w-2xl mx-auto text-center">
                         <h2 class="text-2xl mb-2">Time until <span id="next-prayer-name" class="text-neon">...</span></h2>
-                        <div id="countdown-timer" class="text-5xl tracking-wider">00:00:00</div>
+                        <div id="countdown-timer" class="text-6xl tracking-wider">00:00:00</div>
                     </div>
                 </section>
 
@@ -293,6 +298,7 @@
                     </div>
                     <p id="qibla-direction" class="mt-4 text-lg text-gray-300">For accurate results, hold your device flat, away from any metals.</p>
                     <p id="qibla-error" class="text-sm text-yellow-400 mt-2 hidden">Could not get compass data. Please use a supported device and browser and grant permissions.</p>
+                    <p class="text-amber-500 mt-4 font-semibold">This feature is coming soon.</p>
                 </div>
             </div>
 
@@ -364,18 +370,6 @@
                 </div>
             </div>
 
-            <!-- Settings View -->
-            <div id="settings-view" class="hidden">
-                <div class="card rounded-2xl p-6 max-w-lg mx-auto">
-                    <h2 class="text-2xl mb-4">Settings</h2>
-                    <div class="space-y-6">
-                        <div>
-                            <h3 class="text-lg mb-2">Prayer Time Notifications</h3>
-                            <button id="settings-notification-toggle" onclick="toggleMasterNotifications()" class="w-full py-2 px-4 rounded-lg transition-colors">Toggle Notifications</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </main>
 
         <!-- Footer -->
@@ -399,7 +393,7 @@
         const nextPrayerNameEl = document.getElementById('next-prayer-name');
         const countdownTimerEl = document.getElementById('countdown-timer');
         const salahPrayerTimeElements = { Fajr: document.querySelector('#salah-fajr span:last-child'), Sunrise: document.querySelector('#salah-sunrise span:last-child'), Dhuhr: document.querySelector('#salah-dhuhr span:last-child'), Asr: document.querySelector('#salah-asr span:last-child'), Maghrib: document.querySelector('#salah-maghrib span:last-child'), Isha: document.querySelector('#salah-isha span:last-child') };
-        const views = { home: document.getElementById('home-view'), qibla: document.getElementById('qibla-view'), listenQuran: document.getElementById('listen-quran-view'), salah: document.getElementById('salah-view'), tasbeeh: document.getElementById('tasbeeh-view'), naat: document.getElementById('naat-view'), calendar: document.getElementById('calendar-view'), settings: document.getElementById('settings-view') };
+        const views = { home: document.getElementById('home-view'), qibla: document.getElementById('qibla-view'), listenQuran: document.getElementById('listen-quran-view'), salah: document.getElementById('salah-view'), tasbeeh: document.getElementById('tasbeeh-view'), naat: document.getElementById('naat-view'), calendar: document.getElementById('calendar-view') };
         const qiblaDirectionEl = document.getElementById('qibla-direction');
         const qiblaLine = document.getElementById('qibla-line');
         const qiblaError = document.getElementById('qibla-error');
@@ -416,7 +410,6 @@
         const tasbeehCounterDisplay = document.getElementById('tasbeeh-counter-display');
         const hadithContent = document.getElementById('hadith-content');
         const hadithReference = document.getElementById('hadith-reference');
-        const settingsNotificationToggle = document.getElementById('settings-notification-toggle');
         
         let tasbeehCount = 0;
         let countdownInterval;
@@ -431,8 +424,6 @@
         let intendedAudioSource = null; // 'quran', 'naat', 'radio' or null
         let currentPlayingQuran = { element: null, surahId: null, index: -1 };
         let isFetchingSurah = false;
-
-        const NOTIFICATION_STATUS_KEY = 'ramadanAppNotificationStatus';
 
         const dailyHadiths = [
             { text: "The Prophet (ﷺ) said, 'The best among you are those who have the best manners and character.'", reference: "Sahih al-Bukhari 3559" },
@@ -474,7 +465,9 @@
         async function initializeApp() {
             document.body.addEventListener('click', unlockAllAudio, { once: true });
             homeRadioAudioPlayer.addEventListener('play', () => manageAudioPlayback('radio'));
-            loadNotificationStatus();
+            if (Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
             loadTasbeehCount();
             displayDailyHadith();
             await getUserLocation();
@@ -513,27 +506,49 @@
             const loadingIndicator = document.getElementById('calendar-loading-indicator');
             const today = new Date();
             today.setHours(0, 0, 0, 0);
-            const apiCalls = islamicEvents.map(event => fetch(`https://api.aladhan.com/v1/hToG?date=${event.hijriDate}-${hijriYear}`).then(res => res.json()));
+            
+            let eventsHtml = '';
+            
             try {
-                const results = await Promise.all(apiCalls);
-                const eventsHtml = results.map((result, index) => {
-                    if (result.code === 200) {
-                        const gregDate = result.data.gregorian;
-                        const eventDate = new Date(`${gregDate.month.en} ${gregDate.day}, ${gregDate.year}`);
-                        if (eventDate >= today) {
-                            const fullDisplayDate = eventDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-                            return `<div class="calendar-item">
-                                        <div class="calendar-date">${islamicEvents[index].date}</div>
-                                        <h3 class="calendar-event-name">${islamicEvents[index].name}</h3>
-                                        <p class="calendar-event-desc">${islamicEvents[index].description}</p>
-                                        <div class="gregorian-date"><strong>Expected Gregorian Date (${gregDate.year}):</strong><br>${fullDisplayDate}</div>
-                                    </div>`;
+                for (const [index, event] of islamicEvents.entries()) {
+                    let eventDataResult;
+                    
+                    // Fetch for the current Hijri year
+                    const initialResponse = await fetch(`https://api.aladhan.com/v1/hToG?date=${event.hijriDate}-${hijriYear}`);
+                    const initialResult = await initialResponse.json();
+
+                    if (initialResult.code === 200) {
+                        const gregData = initialResult.data.gregorian;
+                        const eventDate = new Date(`${gregData.month.en} ${gregData.day}, ${gregData.year}`);
+                        
+                        // If the event has passed this year, fetch for next year
+                        if (eventDate < today) {
+                            const nextYearResponse = await fetch(`https://api.aladhan.com/v1/hToG?date=${event.hijriDate}-${parseInt(hijriYear) + 1}`);
+                            eventDataResult = await nextYearResponse.json();
+                        } else {
+                            eventDataResult = initialResult;
                         }
+                    } else {
+                         // If initial fetch fails, try for next year as a fallback
+                         const nextYearResponse = await fetch(`https://api.aladhan.com/v1/hToG?date=${event.hijriDate}-${parseInt(hijriYear) + 1}`);
+                         eventDataResult = await nextYearResponse.json();
                     }
-                    return '';
-                }).join('');
-                grid.innerHTML = eventsHtml.trim() ? eventsHtml : `<p class="text-center text-gray-400 col-span-full">No upcoming major events found.</p>`;
+
+                    if (eventDataResult && eventDataResult.code === 200) {
+                        const gregDate = eventDataResult.data.gregorian;
+                        const fullDisplayDate = new Date(`${gregDate.month.en} ${gregDate.day}, ${gregDate.year}`).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                        eventsHtml += `<div class="calendar-item">
+                                            <div class="calendar-date">${islamicEvents[index].date}</div>
+                                            <h3 class="calendar-event-name">${islamicEvents[index].name}</h3>
+                                            <p class="calendar-event-desc">${islamicEvents[index].description}</p>
+                                            <div class="gregorian-date"><strong>Expected Gregorian Date (${gregDate.year}):</strong><br>${fullDisplayDate}</div>
+                                        </div>`;
+                    }
+                }
+                
+                grid.innerHTML = eventsHtml.trim() ? eventsHtml : `<p class="text-center text-gray-400 col-span-full">Could not load event dates.</p>`;
                 loadingIndicator.style.display = 'none';
+
             } catch (error) {
                 loadingIndicator.innerHTML = `<p class="text-red-400">Could not load live calendar dates.</p>`;
             }
@@ -645,7 +660,9 @@
         }
 
         function showView(viewName) {
-            if(intendedAudioSource !== null) {
+            // If Quran or Naat is playing, stop it when changing views.
+            // The radio is allowed to continue playing.
+            if(intendedAudioSource === 'quran' || intendedAudioSource === 'naat') {
                 manageAudioPlayback(null);
             }
 
@@ -670,12 +687,17 @@
                         window.addEventListener('deviceorientation', handleOrientation, true);
                     } else {
                         qiblaError.classList.remove('hidden');
+                        qiblaError.textContent = 'Permission denied. Please enable motion sensor access in your browser settings.';
                     }
-                }).catch(e => qiblaError.classList.remove('hidden'));
+                }).catch(e => {
+                     qiblaError.classList.remove('hidden');
+                     qiblaError.textContent = 'Compass feature is not supported or was blocked on this device.';
+                });
             } else if ('DeviceOrientationEvent' in window) {
                  window.addEventListener('deviceorientation', handleOrientation, true);
             } else {
                 qiblaError.classList.remove('hidden');
+                qiblaError.textContent = 'Compass feature is not supported on this device.';
             }
         }
         function stopCompass() { window.removeEventListener('deviceorientation', handleOrientation, true); }
@@ -683,6 +705,7 @@
             let alpha = event.webkitCompassHeading || event.alpha;
             if (alpha === null) {
                 qiblaError.classList.remove('hidden');
+                qiblaError.textContent = 'Could not get compass data. Please ensure your device has a magnetometer.';
                 return;
             }
             compass.style.transform = `rotate(${-alpha}deg)`;
@@ -808,28 +831,6 @@
         function pauseVideo() { youtubePlayer.pauseVideo(); intendedAudioSource = null; }
         function nextVideo() { youtubePlayer.nextVideo(); }
         function previousVideo() { youtubePlayer.previousVideo(); }
-
-        function updateSettingsNotificationUI() {
-            if (notificationsEnabled) {
-                settingsNotificationToggle.textContent = 'Notifications are ON';
-                settingsNotificationToggle.classList.add('bg-green-600', 'hover:bg-green-700');
-                settingsNotificationToggle.classList.remove('bg-red-600', 'hover:bg-red-700');
-            } else {
-                settingsNotificationToggle.textContent = 'Notifications are OFF';
-                settingsNotificationToggle.classList.add('bg-red-600', 'hover:bg-red-700');
-                settingsNotificationToggle.classList.remove('bg-green-600', 'hover:bg-green-700');
-            }
-        }
-
-        function saveNotificationStatus() { localStorage.setItem(NOTIFICATION_STATUS_KEY, notificationsEnabled); }
-        function loadNotificationStatus() { notificationsEnabled = localStorage.getItem(NOTIFICATION_STATUS_KEY) !== 'false'; updateSettingsNotificationUI(); }
-
-        function toggleMasterNotifications() {
-            if (Notification.permission === 'denied') return showTemporaryMessage('Notifications are blocked by your browser.', true);
-            if (Notification.permission === 'default') {
-                Notification.requestPermission().then(p => { if (p === 'granted') { notificationsEnabled = !notificationsEnabled; saveNotificationStatus(); updateSettingsNotificationUI(); } });
-            } else { notificationsEnabled = !notificationsEnabled; saveNotificationStatus(); updateSettingsNotificationUI(); }
-        }
 
         function sendNotification(message, type) {
              if (!notificationsEnabled) return;
