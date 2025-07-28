@@ -24,12 +24,21 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
         /* Neon Green Theme Updates */
+        #countdown-heading {
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 4px #39FF14, 0 0 8px #39FF14;
+        }
         #countdown-timer {
             font-weight: 700; /* Bold */
             font-size: 4.5rem; /* Larger */
             color: #ffffff; /* White text */
             text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14, 0 0 20px #39FF14, 0 0 30px #39FF14; /* Glowing green shadow */
             letter-spacing: 0.05em;
+        }
+        #next-prayer-name {
+            color: #39FF14;
+            font-weight: 700; /* Bold */
         }
         .prayer-time.active {
             background-color: rgba(57, 255, 20, 0.2);
@@ -64,44 +73,6 @@
             background-color: rgba(57, 255, 20, 0.1);
             border: 1px solid rgba(57, 255, 20, 0.3);
         }
-        /* Dua Request System Styling */
-        #dua-form input, #dua-form textarea {
-            width: 100%;
-            background-color: rgba(0,0,0,0.3);
-            border: 1px solid #374151;
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-            margin-bottom: 1rem;
-            color: #d1d5db;
-        }
-        #dua-form button {
-            background-color: #39FF14;
-            color: #000;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            width: 100%;
-            font-weight: bold;
-            transition: background-color 0.2s ease;
-        }
-        #dua-form button:hover {
-            background-color: #22c55e; /* Darker Green */
-        }
-        #dua-list {
-            margin-top: 2rem;
-            max-height: 50vh;
-            overflow-y: auto;
-            padding-right: 0.5rem;
-        }
-        .dua-item {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-left: 4px solid #39FF14;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 0 0.5rem 0.5rem 0;
-        }
-        .dua-item .name { font-weight: bold; color: #a7f3d0; }
-        .dua-item .relation { font-size: 0.9rem; color: #9ca3af; margin-bottom: 0.5rem; }
-        .dua-item .message { color: #d1d5db; }
 
         /* Elegant Quran Player */
         #quran-player-container {
@@ -157,8 +128,8 @@
         .hadith-box {
             border: 1px solid rgba(57, 255, 20, 0.3);
             background-color: rgba(57, 255, 20, 0.05);
-            padding: 1rem;
-            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border-radius: 1rem;
         }
         
         /* Highlighted Radio Player */
@@ -212,7 +183,6 @@
             <button onclick="showView('naat')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 transition">Naat</button>
             <button onclick="showView('qibla')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 transition">Qibla</button>
             <button onclick="showView('calendar')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 transition">Calendar</button>
-            <button onclick="showView('dua')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 transition">Request Dua</button>
             <button onclick="showView('settings')" class="nav-button px-4 py-2 rounded-lg bg-gray-700 transition">Settings</button>
         </nav>
 
@@ -222,14 +192,14 @@
             <div id="home-view">
                 <section id="countdown-section" class="mb-8">
                     <div class="card rounded-2xl p-6 max-w-2xl mx-auto text-center">
-                        <h2 class="text-2xl font-semibold mb-2">Time until <span id="next-prayer-name" class="text-green-300">...</span></h2>
+                        <h2 id="countdown-heading" class="text-2xl mb-2">Time until <span id="next-prayer-name">...</span></h2>
                         <div id="countdown-timer" class="tracking-wider">00:00:00</div>
                     </div>
                 </section>
                 
                 <section id="home-radio-section" class="mb-8">
                     <div class="card rounded-2xl p-6 max-w-2xl mx-auto text-center">
-                        <h3 class="text-xl font-bold text-green-300 mb-4">PRESS TO PLAY LIVE RADIO</h3>
+                        <h3 class="text-xl font-bold mb-4" style="color: #39FF14; text-shadow: 0 0 5px rgba(57, 255, 20, 0.7);">PRESS TO PLAY LIVE RADIO</h3>
                         <audio id="home-radio-audio-player" controls class="w-full"></audio>
                     </div>
                 </section>
@@ -244,12 +214,9 @@
 
                 <!-- Hadith for Today Section -->
                 <section id="hadith-section-home" class="mb-8">
-                    <div class="section-card">
-                        <h2 class="section-title">📖 Hadith for Today</h2>
-                        <div id="hadith-content-home" class="text-center">
-                           <div class="hadith-box">
-                               <p>Loading Hadith...</p>
-                           </div>
+                    <div class="card rounded-2xl p-6 max-w-3xl mx-auto text-center">
+                        <div id="hadith-content-home">
+                           <!-- Hadith will be loaded here -->
                         </div>
                     </div>
                 </section>
@@ -261,24 +228,6 @@
                     <h2 class="section-title">📜 Hadith Archive</h2>
                     <div id="hadith-log-list" class="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
                         <!-- Hadith log will be populated here -->
-                    </div>
-                </div>
-            </div>
-
-             <!-- Dua Request View -->
-            <div id="dua-view" class="hidden">
-                <div class="section-card">
-                    <h2 class="section-title">📿 Dua Requests</h2>
-                    <form id="dua-form" class="mb-6">
-                        <input type="text" id="dua-name" placeholder="Name for Dua" required class="focus:ring-2 focus:ring-green-500 focus:outline-none">
-                        <input type="text" id="dua-relation" placeholder="Your Relation" required class="focus:ring-2 focus:ring-green-500 focus:outline-none">
-                        <textarea id="dua-message" rows="4" placeholder="Write your Dua..." required class="focus:ring-2 focus:ring-green-500 focus:outline-none"></textarea>
-                        <button type="submit">Submit Dua</button>
-                    </form>
-                    <hr class="border-gray-600 my-6">
-                    <h3 class="text-xl font-bold text-center mb-4 text-green-300">Community Dua List</h3>
-                    <div id="dua-list">
-                        <p class="text-center text-gray-400">No duas yet. Be the first to submit one!</p>
                     </div>
                 </div>
             </div>
@@ -328,7 +277,16 @@
             <div id="salah-view" class="hidden">
                 <div class="card rounded-2xl p-6 max-w-2xl mx-auto">
                     <h2 class="text-2xl font-semibold mb-4 text-center">Today's Times</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div id="salah-fajr" class="prayer-time card rounded-xl p-4 flex justify-between items-center"><span class="font-semibold text-lg">Fajr</span><span class="text-xl font-mono">--:--</span></div>
+                        <div id="salah-sunrise" class="prayer-time card rounded-xl p-4 flex justify-between items-center"><span class="font-semibold text-lg">Sunrise</span><span class="text-xl font-mono">--:--</span></div>
+                        <div id="salah-dhuhr" class="prayer-time card rounded-xl p-4 flex justify-between items-center"><span class="font-semibold text-lg">Dhuhr</span><span class="text-xl font-mono">--:--</span></div>
+                        <div id="salah-asr" class="prayer-time card rounded-xl p-4 flex justify-between items-center"><span class="font-semibold text-lg">Asr</span><span class="text-xl font-mono">--:--</span></div>
+                        <div id="salah-maghrib" class="prayer-time card rounded-xl p-4 flex justify-between items-center"><span class="font-semibold text-lg">Maghrib</span><span class="text-xl font-mono">--:--</span></div>
+                        <div id="salah-isha" class="prayer-time card rounded-xl p-4 flex justify-between items-center"><span class="font-semibold text-lg">Isha</span><span class="text-xl font-mono">--:--</span></div>
+                    </div>
+                    <hr class="border-gray-600 my-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                         <div id="salah-sehri" class="card rounded-xl p-4 flex justify-between items-center bg-green-900 border-l-4 border-green-400">
                             <span class="font-semibold text-lg">Sehri End</span>
                             <span class="text-xl font-mono">--:--</span>
@@ -337,15 +295,6 @@
                             <span class="font-semibold text-lg">Iftar</span>
                             <span class="text-xl font-mono">--:--</span>
                         </div>
-                    </div>
-                    <hr class="border-gray-600 my-4">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <div id="salah-fajr" class="prayer-time card rounded-xl p-4 flex justify-between items-center"><span class="font-semibold text-lg">Fajr</span><span class="text-xl font-mono">--:--</span></div>
-                        <div id="salah-sunrise" class="prayer-time card rounded-xl p-4 flex justify-between items-center"><span class="font-semibold text-lg">Sunrise</span><span class="text-xl font-mono">--:--</span></div>
-                        <div id="salah-dhuhr" class="prayer-time card rounded-xl p-4 flex justify-between items-center"><span class="font-semibold text-lg">Dhuhr</span><span class="text-xl font-mono">--:--</span></div>
-                        <div id="salah-asr" class="prayer-time card rounded-xl p-4 flex justify-between items-center"><span class="font-semibold text-lg">Asr</span><span class="text-xl font-mono">--:--</span></div>
-                        <div id="salah-maghrib" class="prayer-time card rounded-xl p-4 flex justify-between items-center"><span class="font-semibold text-lg">Maghrib</span><span class="text-xl font-mono">--:--</span></div>
-                        <div id="salah-isha" class="prayer-time card rounded-xl p-4 flex justify-between items-center"><span class="font-semibold text-lg">Isha</span><span class="text-xl font-mono">--:--</span></div>
                     </div>
                 </div>
             </div>
@@ -392,9 +341,10 @@
         </main>
 
         <!-- Footer -->
-        <footer class="text-center mt-12 text-gray-500 text-sm">
-            <p>Contact us: radioramadhanworld@gmail.com</p>
-            <p>Powered by RAMADHAN WORLD PRODUCTION</p>
+        <footer class="text-center p-4 text-sm text-gray-600 space-x-4">
+          <a href="about.html" class="text-blue-600 underline">About</a>
+          <a href="privacy.html" class="text-blue-600 underline">Privacy Policy</a>
+          <a href="contact.html" class="text-blue-600 underline">Contact</a>
         </footer>
     </div>
 
@@ -411,7 +361,7 @@
         const nextPrayerNameEl = document.getElementById('next-prayer-name');
         const countdownTimerEl = document.getElementById('countdown-timer');
         const salahPrayerTimeElements = { Fajr: document.querySelector('#salah-fajr span:last-child'), Sunrise: document.querySelector('#salah-sunrise span:last-child'), Dhuhr: document.querySelector('#salah-dhuhr span:last-child'), Asr: document.querySelector('#salah-asr span:last-child'), Maghrib: document.querySelector('#salah-maghrib span:last-child'), Isha: document.querySelector('#salah-isha span:last-child') };
-        const views = { home: document.getElementById('home-view'), qibla: document.getElementById('qibla-view'), listenQuran: document.getElementById('listen-quran-view'), salah: document.getElementById('salah-view'), hadith: document.getElementById('hadith-view'), tasbeeh: document.getElementById('tasbeeh-view'), naat: document.getElementById('naat-view'), calendar: document.getElementById('calendar-view'), dua: document.getElementById('dua-view'), settings: document.getElementById('settings-view') };
+        const views = { home: document.getElementById('home-view'), qibla: document.getElementById('qibla-view'), listenQuran: document.getElementById('listen-quran-view'), salah: document.getElementById('salah-view'), hadith: document.getElementById('hadith-view'), tasbeeh: document.getElementById('tasbeeh-view'), naat: document.getElementById('naat-view'), calendar: document.getElementById('calendar-view'), settings: document.getElementById('settings-view') };
         const qiblaDirectionEl = document.getElementById('qibla-direction');
         const qiblaLine = document.getElementById('qibla-line');
         const quranSurahList = document.getElementById('quran-surah-list');
@@ -427,8 +377,6 @@
         const dailyIslamicMessageEl = document.getElementById('daily-islamic-message');
         const dailyIslamicMessageRefEl = document.getElementById('daily-islamic-message-ref');
         const settingsNotificationToggle = document.getElementById('settings-notification-toggle');
-        const duaForm = document.getElementById('dua-form');
-        const duaList = document.getElementById('dua-list');
         
         let tasbeehCount = 0;
         let countdownInterval;
@@ -442,21 +390,19 @@
         let audioUnlocked = false;
 
         const NOTIFICATION_STATUS_KEY = 'ramadanAppNotificationStatus';
-        const DUA_LIST_KEY = 'ramadanAppDuaList';
         const HADITH_LOG_KEY = 'ramadanAppHadithLog';
-        const OFFENSIVE_WORDS = ['badword', 'spam', 'abuse', 'offensive content'];
 
         const radioStations = [{ name: "Ramadhan World", url: "https://ramadhan786.radioca.st/;" }];
         const islamicEvents = [
-            { date: "27 Rajab", name: "Isra and Mi'raj", gregorianDates: { 2025: "Monday, January 27" }, description: "The Prophet's ﷺ miraculous night journey." },
-            { date: "15 Sha’ban", name: "Laylat al-Bara'at", gregorianDates: { 2025: "Friday, February 14" }, description: "The night of forgiveness." },
-            { date: "1 Ramadan", name: "Start of Ramadan", gregorianDates: { 2025: "Saturday, March 1" }, description: "The beginning of the holy month of fasting." },
-            { date: "27 Ramadan", name: "Laylat al-Qadr", gregorianDates: { 2025: "Thursday, March 27" }, description: "The Night of Power, better than a thousand months." },
-            { date: "1 Shawwal", name: "Eid al-Fitr", gregorianDates: { 2025: "Sunday, March 30" }, description: "The festival of breaking the fast." },
-            { date: "10 Dhul Hijjah", name: "Eid al-Adha", gregorianDates: { 2025: "Friday, June 6" }, description: "The festival of sacrifice." },
-            { date: "1 Muharram", name: "Islamic New Year", gregorianDates: { 2025: "Friday, June 27" }, description: "The start of the Islamic lunar calendar, year 1447 AH." },
-            { date: "10 Muharram", name: "Day of Ashura", gregorianDates: { 2025: "Sunday, July 6" }, description: "A day of fasting and remembrance." },
-            { date: "12 Rabi al-Awwal", name: "Mawlid an-Nabi", gregorianDates: { 2025: "Friday, September 5" }, description: "The birthday of Prophet Muhammad ﷺ." }
+            { date: "27 Rajab", name: "Isra and Mi'raj", gregorianDates: { 2025: "Monday, January 27", 2026: "Friday, January 16" }, description: "The Prophet's ﷺ miraculous night journey." },
+            { date: "15 Sha’ban", name: "Laylat al-Bara'at", gregorianDates: { 2025: "Friday, February 14", 2026: "Wednesday, February 4" }, description: "The night of forgiveness." },
+            { date: "1 Ramadan", name: "Start of Ramadan", gregorianDates: { 2025: "Saturday, March 1", 2026: "Thursday, February 19" }, description: "The beginning of the holy month of fasting." },
+            { date: "27 Ramadan", name: "Laylat al-Qadr", gregorianDates: { 2025: "Thursday, March 27", 2026: "Tuesday, March 17" }, description: "The Night of Power, better than a thousand months." },
+            { date: "1 Shawwal", name: "Eid al-Fitr", gregorianDates: { 2025: "Sunday, March 30", 2026: "Friday, March 20" }, description: "The festival of breaking the fast." },
+            { date: "10 Dhul Hijjah", name: "Eid al-Adha", gregorianDates: { 2025: "Friday, June 6", 2026: "Wednesday, May 27" }, description: "The festival of sacrifice." },
+            { date: "1 Muharram", name: "Islamic New Year", gregorianDates: { 2025: "Friday, June 27", 2026: "Wednesday, May 17" }, description: "The start of the Islamic lunar calendar." },
+            { date: "10 Muharram", name: "Day of Ashura", gregorianDates: { 2025: "Sunday, July 6", 2026: "Friday, May 26" }, description: "A day of fasting and remembrance." },
+            { date: "12 Rabi al-Awwal", name: "Mawlid an-Nabi", gregorianDates: { 2025: "Friday, September 5", 2026: "Tuesday, August 25" }, description: "The birthday of Prophet Muhammad ﷺ." }
         ];
 
         const curatedHadiths = [
@@ -482,7 +428,6 @@
             loadNotificationStatus();
             loadTasbeehCount();
             populateEventCalendar();
-            displayDuas();
             displayDailyHadith();
             populateHadithLogPage();
             displayDailyMessage();
@@ -491,13 +436,14 @@
             setInterval(displayDailyMessage, 6 * 60 * 60 * 1000);
             await getUserLocation();
             await populateQuranList();
-            if (duaForm) duaForm.addEventListener('submit', handleDuaSubmit);
             quranAudioPlayer.addEventListener('ended', playNextSurah);
         }
 
         function unlockAllAudio() {
             if (audioUnlocked) return;
-            const allAudio = [quranAudioPlayer, homeRadioAudioPlayer];
+            // The Quran player is handled by its own direct click event.
+            // This global unlocker is for other audio elements like the radio.
+            const allAudio = [homeRadioAudioPlayer];
             allAudio.forEach(audio => {
                 audio.muted = true;
                 const playPromise = audio.play();
@@ -538,6 +484,7 @@
             
             hadithContentHome.innerHTML = `
                 <div class="hadith-box">
+                    <h2 class="section-title mb-4">📖 Hadith for Today</h2>
                     <p class="font-amiri text-center text-xl">"${hadith.text}"</p>
                     <p class="text-center text-base text-green-300 mt-4">
                         Reference: ${hadith.book} ${hadith.number}
@@ -566,20 +513,41 @@
         function populateEventCalendar() {
             const grid = document.querySelector('#calendar-view #islamic-calendar-grid');
             const currentYear = new Date().getFullYear();
-            if(grid){
-                grid.innerHTML = islamicEvents.map(event => {
-                    const eventDate = event.gregorianDates[currentYear] || "Date not available for this year";
-                    return `
+            const now = new Date();
+            now.setHours(0, 0, 0, 0); 
+
+            const processEventsForYear = (year) => {
+                 return islamicEvents.map(event => {
+                    const eventDateStr = event.gregorianDates[year];
+                    if (!eventDateStr) return null;
+                    const eventDate = new Date(`${eventDateStr}, ${year}`);
+                    return { ...event, dateObj: eventDate, displayDate: eventDateStr, displayYear: year };
+                }).filter(Boolean);
+            };
+
+            let allEvents = [
+                ...processEventsForYear(currentYear),
+                ...processEventsForYear(currentYear + 1)
+            ];
+
+            let futureEvents = allEvents.filter(event => event.dateObj >= now);
+            futureEvents.sort((a, b) => a.dateObj - b.dateObj);
+
+            if (grid) {
+                if (futureEvents.length > 0) {
+                    grid.innerHTML = futureEvents.map(event => `
                         <div class="calendar-item" style="transition: transform 0.2s ease, box-shadow 0.2s ease; display: flex; flex-direction: column;">
                             <div class="calendar-date">${event.date}</div>
                             <h3 class="calendar-event-name">${event.name}</h3>
                             <p class="calendar-event-desc">${event.description}</p>
                             <div class="gregorian-date">
-                                <strong>Expected Gregorian Date (${currentYear}):</strong><br>${eventDate}
+                                <strong>Expected Gregorian Date (${event.displayYear}):</strong><br>${event.displayDate}
                             </div>
                         </div>
-                    `;
-                }).join('');
+                    `).join('');
+                } else {
+                    grid.innerHTML = `<p class="text-center col-span-full text-gray-400">No major Islamic events scheduled for the near future.</p>`;
+                }
             }
         }
         
@@ -911,62 +879,6 @@
             if (Notification.permission === "granted") {
                 new Notification(message);
             }
-        }
-
-        // --- Dua System ---
-        function filterContent(text) {
-            const lowerCaseText = text.toLowerCase();
-            return !OFFENSIVE_WORDS.some(word => lowerCaseText.includes(word));
-        }
-
-        function handleDuaSubmit(event) {
-            event.preventDefault();
-            const name = document.getElementById('dua-name').value.trim();
-            const relation = document.getElementById('dua-relation').value.trim();
-            const message = document.getElementById('dua-message').value.trim();
-
-            if (!name || !relation || !message) {
-                showTemporaryMessage("All fields are required.", true);
-                return;
-            }
-
-            if (!filterContent(name) || !filterContent(relation) || !filterContent(message)) {
-                showTemporaryMessage("Your dua contains inappropriate content and was not submitted.", true);
-                return;
-            }
-            
-            const duas = JSON.parse(localStorage.getItem(DUA_LIST_KEY) || '[]');
-            const newDua = {
-                id: Date.now(),
-                name,
-                relation,
-                message,
-                timestamp: new Date().toISOString()
-            };
-
-            duas.unshift(newDua); // Add to the beginning for latest first
-            localStorage.setItem(DUA_LIST_KEY, JSON.stringify(duas));
-            
-            displayDuas();
-            duaForm.reset();
-            showTemporaryMessage("Your Dua has been submitted successfully!");
-        }
-
-        function displayDuas() {
-            const duas = JSON.parse(localStorage.getItem(DUA_LIST_KEY) || '[]');
-            if (duas.length === 0) {
-                duaList.innerHTML = `<p class="text-center text-gray-400">No duas yet. Be the first to submit one!</p>`;
-                return;
-            }
-            
-            // The list is already sorted by adding new duas to the front
-            duaList.innerHTML = duas.map(dua => `
-                <div class="dua-item">
-                    <p class="name">${dua.name}</p>
-                    <p class="relation">Relation: ${dua.relation}</p>
-                    <p class="message">"${dua.message}"</p>
-                </div>
-            `).join('');
         }
         
         function showTemporaryMessage(message, isError = false) {
